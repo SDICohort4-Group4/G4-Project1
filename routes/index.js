@@ -1,10 +1,10 @@
 const express=require("express");
 const app=express();
 app.use(express.json()); //enable express to parse JSON as request body
-const protectedRoutes=require("./protected.routes")
-const generalRoutes=require("./general.routes")
+const itemRoutes=require("./item.routes")
+const userRoutes=require("./user.routes")
 
-app.use(protectedRoutes);
-app.use(generalRoutes);
+app.use(itemRoutes);
+app.use(userRoutes);
 
 module.exports=app
