@@ -1,14 +1,12 @@
 // Import database models
 const {Sequelize}=require("sequelize");
-const User=require("./users.model");
-const Item=require("./items.model");
+const User=require("./user.model");
+const Item=require("./item.model");
+const AdminUser=require("./admin.user.model")
 
+// Import database configuration
+const {sequelize}=require("./dbconfig")
 
-// DB configuration
-const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
-    host: "localhost",
-    dialect: "postgres",
-  });
 
 // Test connection function
 async function testConnection() {
@@ -27,4 +25,5 @@ module.exports={
     testConnection,
     User,
     Item,
+    AdminUser,
 }
