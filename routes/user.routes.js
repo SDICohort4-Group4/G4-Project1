@@ -5,18 +5,20 @@ const UserController=require("../controllers/user.controller");
 const userController= new UserController();
 
 // check routing is working
-router.get("/user",(req,res)=>{
-    return res.send("User route is working!")
-})
+// router.get("/user",(req,res)=>{
+//     return res.send("User route is working!")
+// })
 
-// check routing is working
+// check routing is working to root
 router.get("/",(req,res)=>{
     return res.send("Yay, app is working!")
 })
 
-// router.post("/user/register", UserController.register);
+router.get("/user", userController.getAll)
 
-// router.post("/user/login", UserController.login);
+router.post("/user/register", userController.register);
+
+router.post("/user/login", userController.login);
 
 
 module.exports=router;

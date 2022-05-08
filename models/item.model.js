@@ -48,6 +48,11 @@ module.exports=function(sequelize){
             allowNull: true,
             defaultValue: "",
         },
+        brand:{
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: "",
+        },
         itemPic1: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -84,7 +89,7 @@ module.exports=function(sequelize){
         },
         createdByAdminID: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         updatedByAdminID: {
             type: DataTypes.INTEGER,

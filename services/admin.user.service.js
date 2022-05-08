@@ -5,6 +5,19 @@ const {AdminUser}=require("../models")
 
 
 class AdminUserService{
+    async getAll(){
+        let result={
+            message:null,
+            status:null,
+            data:null,
+        };
+        const getAllAdmins= await AdminUser.findAll();
+        result.message="All Admin user data retrieved";
+        result.data=getAllAdmins;
+        result.status=200;
+        return result;
+    };
+
     async register(name,pwd){
         let result={
             message:null,
@@ -24,7 +37,7 @@ class AdminUserService{
         result.message="Account successfully created";
         result.status=200;
         return result;
-    }
+    };
 
     async login(name,pwd){
         let result={
@@ -48,14 +61,14 @@ class AdminUserService{
 
         const hashcompare= await bcrypt.compare(pwd,checkUser.adminPwd);
         if (!hashcompare) {
-            result.status=401;
             result.message="Incorrect Password";
+            result.status=401;
             return result;
         }
 
         userInfo.id=checkUser.adminID;
-        userInfo.name=checkUser.userName;
-        userInfo.pwd=checkUser.pwd
+        userInfo.name=checkUser.adminName;
+        userInfo.pwd=checkUser.adminPwd
 
         const token=jwt.sign(userInfo,"123",{expiresIn:"1h"});
         result.data=token;
@@ -63,7 +76,7 @@ class AdminUserService{
         result.status=200;
         return result;
 
-    }
+    };
 
 }
 

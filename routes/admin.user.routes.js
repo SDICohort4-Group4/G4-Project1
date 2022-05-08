@@ -5,9 +5,10 @@ const AdminUserController=require("../controllers/admin.user.controller");
 const adminUserController= new AdminUserController();
 
 // check routing is working
-router.get("/admin",(req,res)=>{
-    return res.send("Admin route is working!")
-})
+// router.get("/admin",(req,res)=>{
+// return res.send("Admin Route is working");
+
+router.get("/admin",adminUserController.getAll)
 
 router.post("/admin/register", adminUserController.register);
 

@@ -3,6 +3,12 @@ const adminUserService=new AdminUserService;
 
 class AdminUserController{
 
+    async getAll(req,res){
+        const result=await adminUserService.getAll();
+        res.status(result.status);
+        return res.json({data:result.data,message:result.message});
+    }
+
     async register(req,res){
         const {name,pwd}=req.body
         if (typeof name!="string" || typeof pwd!="string" || name==="" || pwd===""){
