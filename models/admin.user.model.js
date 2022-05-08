@@ -1,9 +1,9 @@
 const {DataTypes, Model} = require ("sequelize");
-const {sequelize}=require("./dbconfig")
 
-class AdminUser extends Model{}
+module.exports=function(sequelize){
+  class AdminUser extends Model {}
 
-AdminUser.init(
+  AdminUser.init(
     {
         adminID: {
             type: DataTypes.INTEGER,
@@ -29,11 +29,9 @@ AdminUser.init(
         },
         createdAt: {
             type: DataTypes.DATE,
-            //   field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
-            //   field: "updated_at",
         },
       },
       {
@@ -41,9 +39,8 @@ AdminUser.init(
         modelName: "adminuser",
         tableName: "adminusers",
       }
-);
+  );
+  return AdminUser;
+}
 
-//create table if it does not exists
-AdminUser.sync();
 
-module.exports=AdminUser;

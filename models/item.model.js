@@ -1,9 +1,9 @@
 const {DataTypes, Model} = require ("sequelize");
-const {sequelize}=require("./dbconfig")
 
-class Item extends Model{}
+module.exports=function(sequelize){
+  class Item extends Model{}
 
-Item.init(
+  Item.init(
     {
         itemID: {
             type: DataTypes.INTEGER,
@@ -92,18 +92,18 @@ Item.init(
         },
         createdAt: {
             type: DataTypes.DATE,
-            //   field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
-            //   field: "updated_at",
         },
+    },
+    {
+        sequelize,
+        modelName: "item",
+        tableName: "items",
     }
+  );
+  return Item;
+}
 
-);
 
-
-//create table if it does not exists
-Item.sync();
-
-module.exports=Item;

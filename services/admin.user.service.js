@@ -20,8 +20,10 @@ class AdminUserService{
         }
 
         const pwdHashed= await bcrypt.hash(pwd,saltRounds);
-        await AdminUser.create({adminName:name,pwd:pwdHashed})
-
+        await AdminUser.create({adminName:name,adminPwd:pwdHashed})
+        result.message="Account successfully created";
+        result.status=200;
+        return result;
     }
 
     async login(name,pwd){
@@ -44,7 +46,7 @@ class AdminUserService{
             return result;
         }
 
-        const hashcompare= await bcrypt.compare(pwd,checkUser.pwd);
+        const hashcompare= await bcrypt.compare(pwd,checkUser.adminPwd);
         if (!hashcompare) {
             result.status=401;
             result.message="Incorrect Password";

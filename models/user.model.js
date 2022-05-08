@@ -1,9 +1,9 @@
 const {DataTypes, Model} = require ("sequelize");
-const {sequelize}=require("./dbconfig")
 
-class User extends Model{}
+module.exports=function(sequelize){
+  class User extends Model{}
 
-User.init(
+  User.init(
     {
         userID: {
             type: DataTypes.INTEGER,
@@ -54,11 +54,9 @@ User.init(
         },
         createdAt: {
             type: DataTypes.DATE,
-            //   field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
-            //   field: "updated_at",
         },
       },
       {
@@ -66,10 +64,9 @@ User.init(
         modelName: "user",
         tableName: "users",
       }
-);
+  );
+  return User;
+}
 
-//create table if it does not exists
-User.sync();
 
 
-module.exports=User;

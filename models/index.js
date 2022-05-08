@@ -1,12 +1,21 @@
 // Import database models
 const {Sequelize}=require("sequelize");
-const User=require("./user.model");
-const Item=require("./item.model");
-const AdminUser=require("./admin.user.model")
 
-// Import database configuration
-const {sequelize}=require("./dbconfig")
+// DB Configuration
+const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
+  host: "localhost",
+  dialect: "postgres",
+});
 
+// Import db models
+const AdminUser=require("./admin.user.model")(sequelize);
+const User=require("./user.model")(sequelize);
+const Item=require("./item.model")(sequelize);
+
+// Create db tables if they do not exist
+// AdminUser.sync();
+// User.sync();
+// Item.sync();
 
 // Test connection function
 async function testConnection() {
