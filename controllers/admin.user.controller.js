@@ -7,7 +7,7 @@ class AdminUserController{
         const result=await adminUserService.getAll();
         res.status(result.status);
         return res.json({data:result.data,message:result.message});
-    }
+    };
 
     async register(req,res){
         const {name,pwd}=req.body
