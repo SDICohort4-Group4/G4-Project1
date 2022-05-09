@@ -13,10 +13,12 @@ module.exports=function(sequelize){
         userName: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue:"",
         },
         userNickname: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
+            defaultValue:"",
         },
         userEmail: {
             type: DataTypes.STRING,
