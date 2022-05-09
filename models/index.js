@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL!==undefined) {
     });
 } else {
 
-    sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
+    sequelize = new Sequelize("g4p2", "postgres", "Pasuwaado13", {
     host: "localhost",
     dialect: "postgres",
     });

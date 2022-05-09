@@ -24,7 +24,7 @@ class UserController{
     async login(req,res){
         const {email,pwd}=req.body;
         if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
-            res.statu(400);
+            res.status(400);
             return res.json({message:"Login information is invalid"})
         }
 

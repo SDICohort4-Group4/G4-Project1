@@ -49,7 +49,7 @@ class AdminUserService{
         let userInfo={
             id:null,
             email:null,
-            pwd:null,
+            role: "admin" // can change "admin to a variable, but need to change table adminRole"
         }
 
         const checkUser=await AdminUser.findOne({where:{adminEmail:email}});
@@ -68,7 +68,6 @@ class AdminUserService{
 
         userInfo.id=checkUser.adminID;
         userInfo.email=checkUser.adminEmail;
-        userInfo.pwd=checkUser.adminPwd
 
         const token=jwt.sign(userInfo,"123",{expiresIn:"1h"});
         result.data=token;
