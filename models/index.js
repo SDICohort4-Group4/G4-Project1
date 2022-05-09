@@ -2,20 +2,20 @@
 const {Sequelize}=require("sequelize");
 
 // DB Configuration for local
-const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
-  host: "localhost",
-  dialect: "postgres",
-});
+// const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
+//   host: "localhost",
+//   dialect: "postgres",
+// });
 
 // DB configuration for Heroku
-// const sequelize= new Sequelize(process.env.DATABASE_URL, {
-//   dialectOptions: {
-//     ssl: {
-//       require:true,
-//       rejectUnauthorized: false
-//     }
-//   }
-// });
+const sequelize= new Sequelize(process.env.DATABASE_URL, {
+  dialectOptions: {
+    ssl: {
+      require:true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 
 // Import db models
