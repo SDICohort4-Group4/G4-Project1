@@ -1,12 +1,13 @@
 // Import database models
 const {Sequelize}=require("sequelize");
 
-// DB Configuration
-// const sequelize = new Sequelize("d54c910kngshno2", "vkqhmwbduhvfmp", "4d87c51dab0ea7fc088128f077bb4cb6588faeb94500fb0c9a80a2bbeaa5aea5", {
-//   host: "ec2-52-4-104-184.compute-1.amazonaws.com",
+// DB Configuration for local
+// const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
+//   host: "localhost",
 //   dialect: "postgres",
 // });
 
+// DB configuration for Heroku
 const sequelize= new Sequelize(process.env.DATABASE_URL, {
   dialectOptions: {
     ssl: {
@@ -23,9 +24,9 @@ const User=require("./user.model")(sequelize);
 const Item=require("./item.model")(sequelize);
 
 // Create db tables if they do not exist
-AdminUser.sync();
-User.sync();
-Item.sync();
+// AdminUser.sync();
+// User.sync();
+// Item.sync();
 
 // Test connection function
 async function testConnection() {
