@@ -10,25 +10,25 @@ class UserController{
     };
 
     async register(req,res){
-        const {name,pwd}=req.body
-        if (typeof name!="string" || typeof pwd!="string" || name==="" || pwd===""){
+        const {email,pwd}=req.body
+        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
             res.status(400);
             return res.json({message:"Login information is invalid"})
         }
 
-        const result=await userService.register(name,pwd);
+        const result=await userService.register(email,pwd);
         res.status(result.status);
         return res.json({data:result.data, message:result.message});
     };
 
     async login(req,res){
-        const {name,pwd}=req.body;
-        if (typeof name!="string" || typeof pwd!="string" || name==="" || pwd===""){
+        const {email,pwd}=req.body;
+        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
             res.statu(400);
             return res.json({message:"Login information is invalid"})
         }
 
-        const result= await userService.login(name,pwd);
+        const result= await userService.login(email,pwd);
         res.status(result.status);
         return res.json({data:result.data, message:result.message});
         

@@ -13,6 +13,7 @@ module.exports=function(sequelize){
         adminName: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue:"",
         },
         adminEmail: {
             type: DataTypes.STRING,
