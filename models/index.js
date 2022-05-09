@@ -5,32 +5,32 @@ let sequelize=null;
 
 // DB Configuration 
 if (process.env.DATABASE_URL!==undefined) {
-  sequelize= new Sequelize(process.env.DATABASE_URL, {
-    dialectOptions: {
-      ssl: {
-        require:true,
-        rejectUnauthorized: false
-      }
-    }
-  });
+    sequelize= new Sequelize(process.env.DATABASE_URL, {
+        dialectOptions: {
+            ssl: {
+            require:true,
+            rejectUnauthorized: false
+            }
+        }
+    });
 } else {
 
-  sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
+    sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
     host: "localhost",
     dialect: "postgres",
-  });
+    });
 
 }
 
 
 // DB configuration for Heroku
 // const sequelize= new Sequelize(process.env.DATABASE_URL, {
-//   dialectOptions: {
+//     dialectOptions: {
 //     ssl: {
-//       require:true,
-//       rejectUnauthorized: false
+//         require:true,
+//         rejectUnauthorized: false
 //     }
-//   }
+//     }
 // });
 
 
@@ -47,14 +47,14 @@ const Item=require("./item.model")(sequelize);
 // Test connection function
 async function testConnection() {
     try {
-      await sequelize.authenticate();
-      console.log("Connection has been established successfully.");
-      return true;
+        await sequelize.authenticate();
+        console.log("Connection has been established successfully.");
+        return true;
     } catch (error) {
-      console.error("Unable to connect to the database:", error);
-      return false;
+        console.error("Unable to connect to the database:", error);
+        return false;
     }
-  }
+}
 
 module.exports={
     sequelize,
