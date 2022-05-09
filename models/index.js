@@ -13,9 +13,9 @@ const User=require("./user.model")(sequelize);
 const Item=require("./item.model")(sequelize);
 
 // Create db tables if they do not exist
-AdminUser.sync();
-User.sync();
-Item.sync();
+// AdminUser.sync();
+// User.sync();
+// Item.sync();
 
 // Test connection function
 async function testConnection() {
