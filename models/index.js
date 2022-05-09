@@ -22,7 +22,6 @@ if (process.env.DATABASE_URL!==undefined) {
 
 }
 
-
 // DB configuration for Heroku
 // const sequelize= new Sequelize(process.env.DATABASE_URL, {
 //   dialectOptions: {
