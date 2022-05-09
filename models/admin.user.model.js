@@ -41,7 +41,7 @@ module.exports=function(sequelize){
             tableName: "adminusers",
         }
     );
-  return AdminUser;
+    return AdminUser;
 }
 
 
