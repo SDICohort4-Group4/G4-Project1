@@ -4,6 +4,7 @@ const {Sequelize}=require("sequelize");
 let sequelize=null;
 
 // DB Configuration 
+// checks if DATABASE_URL is available and toggles between heroku or localhost settings
 if (process.env.DATABASE_URL!==undefined) {
     sequelize= new Sequelize(process.env.DATABASE_URL, {
         dialectOptions: {
