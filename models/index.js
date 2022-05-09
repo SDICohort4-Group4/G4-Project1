@@ -2,8 +2,8 @@
 const {Sequelize}=require("sequelize");
 
 // DB Configuration
-const sequelize = new Sequelize("g4p2", "postgres", "game4Song", {
-  host: "localhost",
+const sequelize = new Sequelize("d54c910kngshno2", "vkqhmwbduhvfmp", "4d87c51dab0ea7fc088128f077bb4cb6588faeb94500fb0c9a80a2bbeaa5aea5", {
+  host: "ec2-52-4-104-184.compute-1.amazonaws.com",
   dialect: "postgres",
 });
 
