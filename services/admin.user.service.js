@@ -22,7 +22,6 @@ class AdminUserService{
         let result={
             message:null,
             status:null,
-            data:null,
         };
 
         const checkUser= await AdminUser.findOne({where:{adminEmail:email}});
@@ -49,7 +48,7 @@ class AdminUserService{
         let userInfo={
             id:null,
             email:null,
-            role: "admin" // can change "admin to a variable, but need to change table adminRole"
+            role: null
         }
 
         const checkUser=await AdminUser.findOne({where:{adminEmail:email}});
@@ -66,8 +65,9 @@ class AdminUserService{
             return result;
         }
 
-        userInfo.id=checkUser.adminID;
-        userInfo.email=checkUser.adminEmail;
+        userInfo.id = checkUser.adminID;
+        userInfo.email = checkUser.adminEmail;
+        userInfo.role = checkUser.adminRole;
 
         const token=jwt.sign(userInfo,"123",{expiresIn:"1h"});
         result.data=token;
@@ -77,6 +77,31 @@ class AdminUserService{
 
     };
 
+    async delete(adminId) {
+        let result={
+            message:null,
+            status:null,
+        }
+
+        const targetAdmin = await AdminUser.findByPk(adminId)
+
+        if(!targetAdmin) {
+            result.message = `Admin ID ${adminId} does not exist.`;
+            result.status = 404;
+            return result;
+        }
+
+        if(targetAdmin.adminRole === "superAdmin") {
+            result.message = 'Super Admin cannot be deleted';
+            result.status = 403;
+            return result;
+        }
+
+        await AdminUser.destroy({where: {adminID: adminId}});
+        result.status = 200;
+        result.message = `Admin ID ${adminId} has been deleted`
+        return result;
+    }
 }
 
 module.exports=AdminUserService;

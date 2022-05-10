@@ -13,10 +13,12 @@ const adminUserController= new AdminUserController();
 
 router.post("/admin/login", adminUserController.login);
 
-router.use(verifyJWT);
+router.use(verifyJWT); //use verifyJWT middleware after login since login should not require 
 
 router.get("/admin", verifyRoles('admin'), adminUserController.getAll);
 
-router.post("/admin/register", verifyRoles('admin'), adminUserController.register);
+router.post("/admin/register", verifyRoles('admin', 'superAdmin'), adminUserController.register);
+
+router.delete("/admin/:adminId", verifyRoles('superAdmin'), adminUserController.delete);
 
 module.exports=router;

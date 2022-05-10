@@ -1,12 +1,15 @@
-const verifyRoles = (role) => {
+const verifyRoles = (...roles) => {
     return (req, res, next) => {
         if (!req?.role) return res.sendStatus(401); 
-        console.log(role);
+        rolesArr = [...roles];
+
+        console.log(rolesArr);
         console.log(req.role);
 
-        if(role != req.role) return res.sendStatus(401);
+        result = rolesArr.some(role => role == req.role);
+        if(!result) return res.sendStatus(401);
 
-        next()
+        next();
     }
 }
 

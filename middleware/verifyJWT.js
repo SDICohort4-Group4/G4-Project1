@@ -7,7 +7,7 @@ const verifyJWT = (req, res, next) => {
         token,
         '123', //temp
         (err, decoded) => {
-            if (err) return res.sendStatus(401); //invalid token input
+            if (err) return res.status(401).send("invalid token"); //invalid token input
             console.log(decoded)
             req.user = decoded.email;
             req.role = decoded.role;
