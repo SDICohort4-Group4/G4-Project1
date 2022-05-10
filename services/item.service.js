@@ -18,6 +18,27 @@ class ItemService{
 
     };
 
+    // get specific item data from the db
+    async getBySku(sku){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findOne({where:{SKU:sku}});
+
+        if(getItem == null){
+            result.message = "SKU does not exist"
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
     // create a new item record in the db
     async addItem(sku, 
                   itemName,

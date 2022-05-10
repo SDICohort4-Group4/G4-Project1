@@ -11,6 +11,30 @@ class ItemController{
 
     };
 
+    //get specific item by SKU
+    async getBySku(req,res){
+
+        const sku = req.params.sku
+
+        // if(typeof sku != 'number'){
+        //     res.status(400)
+        //     return (res.json({
+        //         message:"SKU is invalid"
+        //     }))
+        // }
+
+        const result = await itemService.getBySku(sku);
+
+        res.status(result.status);
+
+        return (
+            res.json({
+                data: result.data,
+                message: result.message
+            })
+        )
+    }
+
     // add a new item
     async addItem(req,res){
         const { sku,

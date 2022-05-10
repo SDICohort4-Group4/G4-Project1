@@ -11,6 +11,8 @@ const itemController= new ItemController;
 
 router.get("/item",itemController.getAll);
 
-router.post("/item/add",itemController.addItem)
+router.get("/item/:sku",itemController.getBySku);
+
+router.post("/item/add",itemController.addItem);
 
 module.exports=router;
