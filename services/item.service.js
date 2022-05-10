@@ -30,6 +30,7 @@ class ItemService{
 
         if(getItem == null){
             result.message = "SKU does not exist"
+            result.status = 404;
             return result;
         }
 
