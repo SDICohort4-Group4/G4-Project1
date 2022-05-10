@@ -1,3 +1,6 @@
+// import local db config
+const {localdbName,localdbUser,localdbPwd}=require("./localdbconfig");
+
 // Import database models
 const {Sequelize}=require("sequelize");
 
@@ -16,7 +19,7 @@ if (process.env.DATABASE_URL!==undefined) {
     });
 } else {
 
-    sequelize = new Sequelize("g4p2", "postgres", "Pasuwaado13", {
+    sequelize = new Sequelize(localdbName, localdbUser, localdbPwd, {
     host: "localhost",
     dialect: "postgres",
     });
