@@ -11,7 +11,7 @@ const userController= new UserController();
 
 // check routing is working to root
 router.get("/",(req,res)=>{
-    return res.send("Yay, app is working!")
+    return res.send("Group 4 Project 2 root page.")
 })
 
 router.get("/user", userController.getAll)

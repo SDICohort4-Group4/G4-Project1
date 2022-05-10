@@ -17,7 +17,7 @@ module.exports=function(sequelize){
             },
             adminEmail: {
                 type: DataTypes.STRING,
-                allowNull:true,
+                allowNull: false,
             },
             adminPwd: {
                 type: DataTypes.STRING,

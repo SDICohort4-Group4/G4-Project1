@@ -12,15 +12,15 @@ class UserController{
 
     // create a new user
     async register(req,res){
-        const {email,pwd}=req.body
+        const {email,name,nickname,pwd}=req.body
         // check that data is valid format or is not an empty string
         if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
             res.status(400);
-            return res.json({message:"Login information is invalid"})
+            return res.json({message:"Registration information is invalid"})
         }
 
         // send data to ORM service layer
-        const result=await userService.register(email,pwd);
+        const result=await userService.register(email,name,nickname,pwd);
         res.status(result.status);
         return res.json({data:result.data, message:result.message});
     };

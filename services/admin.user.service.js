@@ -1,6 +1,11 @@
 const bcrypt=require("bcrypt");
 const saltRounds=10;
 const jwt=require("jsonwebtoken");
+
+// load key for hashing from common file
+const fs=require("fs");
+const privateKey=fs.readFileSync("./jwttest.key");
+
 const {AdminUser}=require("../models")
 
 
@@ -21,7 +26,7 @@ class AdminUserService{
     };
 
     // create a new admin user
-    async register(email,pwd){
+    async register(email,name,role,pwd){
         let result={
             message:null,
             status:null,
@@ -38,7 +43,7 @@ class AdminUserService{
         // hash the password before storing in database
         const pwdHashed= await bcrypt.hash(pwd,saltRounds);
         // create the record in db
-        await AdminUser.create({adminEmail:email,adminPwd:pwdHashed})
+        await AdminUser.create({adminEmail:email,adminName:name,adminRole:role,adminPwd:pwdHashed})
         result.message="Account successfully created";
         result.status=200;
         return result;
@@ -81,7 +86,7 @@ class AdminUserService{
 
 
         //create json web token and return data
-        const token=jwt.sign(userInfo,"123",{expiresIn:"1h"});
+        const token=jwt.sign(userInfo, privateKey,{expiresIn:"1h"});
         result.data=token;
         result.message="Login Success";
         result.status=200;

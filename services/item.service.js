@@ -19,7 +19,21 @@ class ItemService{
     };
 
     // create a new item record in the db
-    async addItem(sku, itemName){
+    async addItem(sku, 
+                  itemName,
+                  itemDescription,
+                  itemPrice,
+                  itemSalePrice,
+                  itemDiscount,
+                  itemCategory1,
+                  itemCategory2,
+                  brand,
+                  itemPic1,
+                  itemPic2,
+                  UOM,
+                  Qty,
+                  hidden,
+                  expiryDate){
         let result={
             message:null,
             status:null,
@@ -33,9 +47,23 @@ class ItemService{
             result.status=400;
             return result;
         }
-        
+      
         // create the item in the db
-        await Item.create({SKU:sku,itemName:itemName});
+        await Item.create({ SKU: sku,
+                            itemName: itemName,
+                            itemDescription: itemDescription,
+                            itemPrice: itemPrice,
+                            itemSalePrice: itemSalePrice,
+                            itemDiscount: itemDiscount,
+                            itemCategory1: itemCategory1,
+                            itemCategory2: itemCategory2,
+                            brand: brand,
+                            itemPic1: itemPic1,
+                            itemPic2: itemPic2,
+                            UOM: UOM,
+                            Qty: Qty,
+                            hidden: hidden,
+                            expiryDate: expiryDate});
         result.message="Item Successfully added";
         result.status=200;
         return result;

@@ -12,15 +12,16 @@ class AdminUserController{
 
     // create a new admin user
     async register(req,res){
-        const {email,pwd}=req.body
+        const {email,name,role,pwd}=req.body;
         // check that data is valid format or is not an empty string
-        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
+        // check that role is correctly set to either "admin" or "superAdmin"
+        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd==="" || (role!="admin" && role!="superAdmin")){
             res.status(400);
-            return res.json({message:"Login information is invalid"})
+            return res.json({message:"Registration information is invalid"})
         }
 
         // send data to ORM service layer
-        const result=await adminUserService.register(email,pwd);
+        const result=await adminUserService.register(email,name,role,pwd);
         res.status(result.status);
         return res.json({message:result.message});
     };
@@ -52,7 +53,7 @@ class AdminUserController{
         //consume service layer
         const result = await adminUserService.delete(targetAdminId);
 
-        // return serive data
+        // return service data
         res.status(result.status);
         return res.json({message: result.message});
 
