@@ -19,6 +19,18 @@ class AdminUserController{
             return res.json({message:"Login information is invalid"})
         }
 
+        //---------------Can comment out section to remove checks for debugging--------------------
+       const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+
+        if (!emailRegex.test(email)) {
+            res.status(400);
+            return res.json({message:"Invalid email address"});
+        }
+
+        //can also add in checks for password complexity 
+
+        //------------------------------------------------------------------------------------------
+
         // send data to ORM service layer
         const result=await adminUserService.register(email,pwd);
         res.status(result.status);
