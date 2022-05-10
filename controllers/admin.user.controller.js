@@ -22,7 +22,7 @@ class AdminUserController{
         // send data to ORM service layer
         const result=await adminUserService.register(email,pwd);
         res.status(result.status);
-        return res.json({data:result.data, message:result.message});
+        return res.json({message:result.message});
     };
 
     // login an existing admin user
@@ -30,7 +30,7 @@ class AdminUserController{
         const {email,pwd}=req.body;
         // check that data is valid format or is not an empty string
         if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
-            res.statu(400);
+            res.status(400);
             return res.json({message:"Login information is invalid"})
         }
 
@@ -39,6 +39,23 @@ class AdminUserController{
         res.status(result.status);
         return res.json({data:result.data, message:result.message});
         
+    }
+
+    async delete(req,res) {
+        const targetAdminId = parseInt(req.params.adminId);
+
+        if (typeof targetAdminId !== "number") {
+            res.status(400); //bad reqest 
+            return res.json({message: "Invalid Admin ID"});
+        }
+
+        //consume service layer
+        const result = await adminUserService.delete(targetAdminId);
+
+        // return serive data
+        res.status(result.status);
+        return res.json({message: result.message});
+
     }
 
 }

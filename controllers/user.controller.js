@@ -30,7 +30,7 @@ class UserController{
         const {email,pwd}=req.body;
         // check that data is valid format or is not an empty string
         if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
-            res.statu(400);
+            res.status(400);
             return res.json({message:"Login information is invalid"})
         }
 

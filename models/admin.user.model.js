@@ -26,7 +26,7 @@ module.exports=function(sequelize){
             adminRole: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue:"read",
+                defaultValue:"admin",
             },
             createdAt: {
                 type: DataTypes.DATE,
