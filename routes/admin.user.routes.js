@@ -15,7 +15,7 @@ router.post("/admin/login", adminUserController.login);
 
 router.use(verifyJWT); //use verifyJWT middleware after login since login should not require 
 
-router.get("/admin", verifyRoles('admin'), adminUserController.getAll);
+router.get("/admin", verifyRoles('admin', 'superAdmin'), adminUserController.getAll);
 
 router.post("/admin/register", verifyRoles('admin', 'superAdmin'), adminUserController.register);
 
