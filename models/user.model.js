@@ -22,7 +22,7 @@ module.exports=function(sequelize){
             },
             userEmail: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             userPwd: {
                 type: DataTypes.STRING,
