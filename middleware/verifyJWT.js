@@ -13,7 +13,7 @@ const verifyJWT = (req, res, next) => {
         privateKey, 
         (err, decoded) => {
             if (err) return res.status(401).send("invalid token"); //invalid token input
-            console.log(decoded)
+            // console.log(decoded) to check decoded values
             req.user = decoded.email;
             req.role = decoded.role;
             
