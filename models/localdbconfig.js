@@ -3,7 +3,7 @@
 
 const localdbName="g4p2";
 const localdbUser="postgres";
-const localdbPwd="game4Song";
+const localdbPwd="xxx";
 
 module.exports={
     localdbName,
