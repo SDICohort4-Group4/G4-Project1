@@ -30,6 +30,7 @@ class ItemService{
 
         if(getItem == null){
             result.message = "SKU does not exist"
+            return result;
         }
 
         result.message = `Item data retrieved successfully`
