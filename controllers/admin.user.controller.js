@@ -32,6 +32,15 @@ class AdminUserController{
 
         //------------------------------------------------------------------------------------------
 
+        //we can get the role of the user by calling req.role
+        const loginRole = req.role;
+
+        // make sure that admin cannot create super admin
+        if (loginRole != 'superAdmin' && role == 'superAdmin') {
+            res.status(400);
+            return res.json({message:"Only Super Admin can create new Super Admin accounts"});
+        }
+
         // send data to ORM service layer
         const result=await adminUserService.register(email,name,role,pwd);
         res.status(result.status);

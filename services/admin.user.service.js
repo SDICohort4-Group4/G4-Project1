@@ -108,8 +108,12 @@ class AdminUserService{
             return result;
         }
 
-        if(targetAdmin.adminRole === "superAdmin") {
-            result.message = 'Super Admin cannot be deleted';
+        // check number of super admin
+        const sAdminList = await AdminUser.findAll({where:{adminRole:'superAdmin'}});
+
+        // if there is only 1 super admin, that super admin cannot be deleted 
+        if(targetAdmin.adminRole === "superAdmin" && sAdminList.length <= 1 ) {
+            result.message = 'You cannot delete the only super admin.';
             result.status = 403;
             return result;
         }
