@@ -29,7 +29,7 @@ class AdminUserController{
         }
 
         //---------------Can comment out section to remove checks for debugging--------------------
-       const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
 
         if (!emailRegex.test(email)) {
             res.status(400);
@@ -109,6 +109,38 @@ class AdminUserController{
         return res.json({
             message: result.message
         });
+    }
+
+    async updatePwd(req, res) {
+        // retrieve data from request body
+        const {currentPwd, newPwd, userEmail} = req.body;
+        const loginUser = req.user;
+        const loginRole = req.role;
+
+        if (!currentPwd || !newPwd) {
+            res.status(400); //bad reqest 
+            return res.json({message: "Current Password and new password cannot be empty"});
+        }
+
+        // if userEmail is provided and it is different user from the logged in user.
+        if (userEmail != loginUser && loginRole != 'superAdmin') {
+            res.status(400); //bad reqest 
+            return res.json({message: "Only super admin can change password of others"});
+        }
+        // if no userEmail input or input same as loginEmail (meaning changing of own password)
+        if (!userEmail || userEmail == loginUser) {
+            //send in current pwd ,new pwd and the email from jwt token into service layer
+            const result = await adminUserService.updatePwd(currentPwd, newPwd, loginUser);
+            //return service data
+            res.status(result.status);
+            return res.json({message: result.message});
+        }
+
+        //send in current pwd ,new pwd and userEmail from input into service layer
+        const result = await adminUserService.updatePwd(currentPwd, newPwd, userEmail);
+        //return service data
+        res.status(result.status);
+        return res.json({message: result.message});
     }
 
 }

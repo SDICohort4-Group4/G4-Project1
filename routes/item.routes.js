@@ -1,5 +1,7 @@
-const express = require("express");
-const router = express.Router();
+const express=require("express");
+const router=express.Router();
+const verifyRoles = require('../middleware/verifyRoles');
+const verifyJWT = require('../middleware/verifyJWT')
 
 const ItemController = require("../controllers/item.controller");
 const itemController = new ItemController;
@@ -19,7 +21,8 @@ router.get("/item/category2/:cat2", itemController.getByCat2);
 
 router.get("/item/brand/:brand", itemController.getByBrand);
 
-router.post("/item/add", itemController.addItem);
+// can remove verifyJWT and verifyRoles middleware 
+router.post("/item/add",verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
 
 router.put("/item/update/:sku", itemController.updateItem);
 
