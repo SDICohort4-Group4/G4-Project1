@@ -67,7 +67,7 @@ class AdminUserService{
         const checkUser=await AdminUser.findOne({where:{adminEmail:email}});
         if (checkUser===null){
             result.message=`User: ${email} does Not exist, please use another Email `;
-            result.status=400;
+            result.status=404;
             return result;
         }
 
@@ -122,7 +122,41 @@ class AdminUserService{
         result.status = 200;
         result.message = `Admin ID ${adminId} has been deleted`
         return result;
+    };
+
+
+    async updatePwd(currentPwd, newPwd, targetEmail) {
+        let result = {
+            message: null,
+            status: null,
+        }
+
+        const targetAdmin = await AdminUser.findOne({where:{adminEmail:targetEmail}});
+
+        if(!targetAdmin) {
+            result.message = `Email ${targetEmail} does not exist.`;
+            result.status = 404;
+            return result;
+        }
+
+        // verify hashed password
+        const hashcompare= await bcrypt.compare(currentPwd,targetAdmin.adminPwd);
+
+        if (!hashcompare) {
+            result.message="Incorrect Password";
+            result.status=401;
+            return result;
+        }
+
+        const pwdHashed= await bcrypt.hash(newPwd,saltRounds);
+        targetAdmin.adminPwd = pwdHashed;
+
+        await targetAdmin.save();
+        result.status = 200;
+        result.message = "Password changed successfully"
+        return result
     }
+
 }
 
 module.exports=AdminUserService;
