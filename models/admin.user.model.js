@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require ("sequelize");
 
-module.exports=function(sequelize){
+module.exports = function(sequelize){
     class AdminUser extends Model {}
 
     AdminUser.init(
@@ -13,7 +13,7 @@ module.exports=function(sequelize){
             adminName: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue:"",
+                defaultValue: "",
             },
             adminEmail: {
                 type: DataTypes.STRING,
@@ -26,7 +26,7 @@ module.exports=function(sequelize){
             adminRole: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue:"admin",
+                defaultValue: "admin",
             },
             createdAt: {
                 type: DataTypes.DATE,
