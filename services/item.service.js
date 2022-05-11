@@ -171,128 +171,128 @@ class ItemService{
         return result;
     };
 
-    async updateItem(
-        sku, 
-        itemName,
-        itemDescription,
-        itemPrice,
-        itemSalePrice,
-        itemDiscount,
-        itemCategory1,
-        itemCategory2,
-        brand,
-        itemPic1,
-        itemPic2,
-        UOM,
-        Qty,
-        hidden,
-        deleted,
-        expiryDate
-    ){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        };
+    // async updateItem(
+    //     sku, 
+    //     itemName,
+    //     itemDescription,
+    //     itemPrice,
+    //     itemSalePrice,
+    //     itemDiscount,
+    //     itemCategory1,
+    //     itemCategory2,
+    //     brand,
+    //     itemPic1,
+    //     itemPic2,
+    //     UOM,
+    //     Qty,
+    //     hidden,
+    //     deleted,
+    //     expiryDate
+    // ){
+    //     let result = {
+    //         message: null,
+    //         status: null,
+    //         data: null,
+    //     };
 
-        console.log(
-            `sku: ${sku}, 
-            itemName: ${itemName}, 
-            itemDescription: ${itemDescription}, 
-            itemPrice: ${itemPrice}, 
-            itemSalePrice: ${itemSalePrice}, 
-            itemDiscount: ${itemDiscount}, 
-            itemCategory1: ${itemCategory1}, 
-            itemCategory2: ${itemCategory2}, 
-            brand: ${brand}, 
-            itemPic1: ${itemPic1}, 
-            itemPic2: ${itemPic2}, 
-            UOM: ${UOM}, 
-            Qty: ${Qty}, 
-            hidden: ${hidden}, 
-            deleted: ${deleted}, 
-            expiryDate: ${expiryDate}, `)
+    //     console.log(
+    //         `sku: ${sku}, 
+    //         itemName: ${itemName}, 
+    //         itemDescription: ${itemDescription}, 
+    //         itemPrice: ${itemPrice}, 
+    //         itemSalePrice: ${itemSalePrice}, 
+    //         itemDiscount: ${itemDiscount}, 
+    //         itemCategory1: ${itemCategory1}, 
+    //         itemCategory2: ${itemCategory2}, 
+    //         brand: ${brand}, 
+    //         itemPic1: ${itemPic1}, 
+    //         itemPic2: ${itemPic2}, 
+    //         UOM: ${UOM}, 
+    //         Qty: ${Qty}, 
+    //         hidden: ${hidden}, 
+    //         deleted: ${deleted}, 
+    //         expiryDate: ${expiryDate}, `)
 
-        // check whether item sku already exists
-        const checkItem = await Item.findOne({where:{SKU:sku}});
+    //     // check whether item sku already exists
+    //     const checkItem = await Item.findOne({where:{SKU:sku}});
 
-        if (checkItem == null){
-            result.message = `Item SKU: ${sku} does not exist`;
-            result.status = 400;
+    //     if (checkItem == null){
+    //         result.message = `Item SKU: ${sku} does not exist`;
+    //         result.status = 400;
 
-            return result;
-        }
+    //         return result;
+    //     }
         
-        // function isValidURL(string) {
-        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    //     // function isValidURL(string) {
+    //     //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
-        //     return (result !== null)
-        // }
+    //     //     return (result !== null)
+    //     // }
 
-        // if(itemName !== null){
-        //     checkItem.itemName = itemName;
-        // }
+    //     // if(itemName !== null){
+    //     //     checkItem.itemName = itemName;
+    //     // }
 
-        if(itemDescription !== null){
-            checkItem.itemDescription = itemDescription;
-        }
+    //     if(itemDescription !== null){
+    //         checkItem.itemDescription = itemDescription;
+    //     }
 
-        if(itemPrice !== null && (typeof itemPrice == "number") && itemPrice >= 0){
-            checkItem.itemPrice = itemPrice;
-        }
+    //     if(itemPrice !== null && (typeof itemPrice == "number") && itemPrice >= 0){
+    //         checkItem.itemPrice = itemPrice;
+    //     }
 
-        if(itemSalePrice !== null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
-            checkItem.itemSalePrice = itemSalePrice;
-        }
+    //     if(itemSalePrice !== null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
+    //         checkItem.itemSalePrice = itemSalePrice;
+    //     }
 
-        if(itemDiscount !== null && (typeof itemDiscount == "number") && itemDiscount >= 0){
-            checkItem.itemDiscount = itemDiscount;
-        }
+    //     if(itemDiscount !== null && (typeof itemDiscount == "number") && itemDiscount >= 0){
+    //         checkItem.itemDiscount = itemDiscount;
+    //     }
 
-        if(itemCategory1 !== null && (typeof itemCategory1 == "string")){
-            checkItem.itemCategory1 = itemCategory1;
-        }
+    //     if(itemCategory1 !== null && (typeof itemCategory1 == "string")){
+    //         checkItem.itemCategory1 = itemCategory1;
+    //     }
 
-        if(itemCategory2 !== null && (typeof itemCategory2 == "string")){
-            checkItem.itemCategory2 = itemCategory2;
-        }
+    //     if(itemCategory2 !== null && (typeof itemCategory2 == "string")){
+    //         checkItem.itemCategory2 = itemCategory2;
+    //     }
 
-        if(brand !== null && (typeof brand == "string")){
-            checkItem.brand = brand;
-        }
+    //     if(brand !== null && (typeof brand == "string")){
+    //         checkItem.brand = brand;
+    //     }
 
-        // if(itemPic1 !== null && isValidURL(itemPic1)){
-        //     checkItem.itemPic1 = itemPic1;
-        // }
+    //     // if(itemPic1 !== null && isValidURL(itemPic1)){
+    //     //     checkItem.itemPic1 = itemPic1;
+    //     // }
 
-        // if(itemPic2 !== null && isValidURL(itemPic2)){
-        //     checkItem.itemPic2 = itemPic2;
-        // }
+    //     // if(itemPic2 !== null && isValidURL(itemPic2)){
+    //     //     checkItem.itemPic2 = itemPic2;
+    //     // }
 
-        if(Qty !== null && (typeof Qty == "number") && Qty >= 0){
-            checkItem.Qty = Qty;
-        }
+    //     if(Qty !== null && (typeof Qty == "number") && Qty >= 0){
+    //         checkItem.Qty = Qty;
+    //     }
 
-        if(hidden !== null && (typeof hidden == "boolean")){
-            checkItem.hidden = hidden;
-        }
+    //     if(hidden !== null && (typeof hidden == "boolean")){
+    //         checkItem.hidden = hidden;
+    //     }
 
-        if(deleted !== null && (typeof deleted == "boolean")){
-            checkItem.deleted = deleted;
-        }
+    //     if(deleted !== null && (typeof deleted == "boolean")){
+    //         checkItem.deleted = deleted;
+    //     }
 
-        if(expiryDate !== null){
-            checkItem.expiryDate = expiryDate;
-        }
+    //     if(expiryDate !== null){
+    //         checkItem.expiryDate = expiryDate;
+    //     }
         
-        await checkItem.save();
+    //     await checkItem.save();
         
-        result.message = "Item Successfully Updated";
-        result.status = 200;
-        result.data = await Item.findOne({where:{SKU:sku}})
+    //     result.message = "Item Successfully Updated";
+    //     result.status = 200;
+    //     result.data = await Item.findOne({where:{SKU:sku}})
 
-        return result;
-    };
+    //     return result;
+    // };
 
 
 }
