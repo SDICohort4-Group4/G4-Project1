@@ -29,7 +29,7 @@ class AdminUserController{
         }
 
         //---------------Can comment out section to remove checks for debugging--------------------
-       const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
 
         if (!emailRegex.test(email)) {
             res.status(400);
