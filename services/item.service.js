@@ -43,6 +43,75 @@ class ItemService{
         return result;
     }
 
+    async getByBrand(brand){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findAll({where:{brand:brand}});
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    async getByCat1(cat1){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findAll({where:{itemCategory1:cat1}});
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    async getByCat2(cat2){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findAll({where:{itemCategory2:cat2}});
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
     // create a new item record in the db
     async addItem(
         sku, 
@@ -126,6 +195,24 @@ class ItemService{
             data: null,
         };
 
+        console.log(
+            `sku: ${sku}, 
+            itemName: ${itemName}, 
+            itemDescription: ${itemDescription}, 
+            itemPrice: ${itemPrice}, 
+            itemSalePrice: ${itemSalePrice}, 
+            itemDiscount: ${itemDiscount}, 
+            itemCategory1: ${itemCategory1}, 
+            itemCategory2: ${itemCategory2}, 
+            brand: ${brand}, 
+            itemPic1: ${itemPic1}, 
+            itemPic2: ${itemPic2}, 
+            UOM: ${UOM}, 
+            Qty: ${Qty}, 
+            hidden: ${hidden}, 
+            deleted: ${deleted}, 
+            expiryDate: ${expiryDate}, `)
+
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
 
@@ -136,67 +223,69 @@ class ItemService{
             return result;
         }
         
-        function isValidURL(string) {
-            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        // function isValidURL(string) {
+        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
-            return (result !== null)
-        }
+        //     return (result !== null)
+        // }
 
-        if(itemName !== null){
-            Item.itemName = itemName;
-        }
+        // if(itemName !== null){
+        //     checkItem.itemName = itemName;
+        // }
 
         if(itemDescription !== null){
-            Item.itemDescription = itemDescription;
+            checkItem.itemDescription = itemDescription;
         }
 
         if(itemPrice !== null && (typeof itemPrice == "number") && itemPrice >= 0){
-            Item.itemPrice = itemPrice;
+            checkItem.itemPrice = itemPrice;
         }
 
         if(itemSalePrice !== null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
-            Item.itemSalePrice = itemSalePrice;
+            checkItem.itemSalePrice = itemSalePrice;
         }
 
         if(itemDiscount !== null && (typeof itemDiscount == "number") && itemDiscount >= 0){
-            Item.itemDiscount = itemDiscount;
+            checkItem.itemDiscount = itemDiscount;
         }
 
         if(itemCategory1 !== null && (typeof itemCategory1 == "string")){
-            Item.itemCategory1 = itemCategory1;
+            checkItem.itemCategory1 = itemCategory1;
         }
 
         if(itemCategory2 !== null && (typeof itemCategory2 == "string")){
-            Item.itemCategory2 = itemCategory2;
+            checkItem.itemCategory2 = itemCategory2;
         }
 
         if(brand !== null && (typeof brand == "string")){
-            Item.brand = brand;
+            checkItem.brand = brand;
         }
 
-        if(itemPic1 !== null && isValidURL(itemPic1)){
-            Item.itemPic1 = itemPic1;
-        }
+        // if(itemPic1 !== null && isValidURL(itemPic1)){
+        //     checkItem.itemPic1 = itemPic1;
+        // }
 
-        if(itemPic2 !== null && isValidURL(itemPic2)){
-            Item.itemPic2 = itemPic2;
-        }
+        // if(itemPic2 !== null && isValidURL(itemPic2)){
+        //     checkItem.itemPic2 = itemPic2;
+        // }
 
         if(Qty !== null && (typeof Qty == "number") && Qty >= 0){
-            Item.Qty = Qty;
+            checkItem.Qty = Qty;
         }
 
         if(hidden !== null && (typeof hidden == "boolean")){
-            Item.hidden = hidden;
+            checkItem.hidden = hidden;
         }
 
         if(deleted !== null && (typeof deleted == "boolean")){
-            Item.deleted = deleted;
+            checkItem.deleted = deleted;
         }
 
         if(expiryDate !== null){
-            Item.expiryDate = expiryDate;
+            checkItem.expiryDate = expiryDate;
         }
+        
+        await checkItem.save();
         
         result.message = "Item Successfully Updated";
         result.status = 200;

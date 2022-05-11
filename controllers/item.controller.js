@@ -19,14 +19,49 @@ class ItemController{
     async getBySku(req,res){
         const sku = req.params.sku
 
-        // if(typeof sku != 'number'){
-        //     res.status(400)
-        //     return (res.json({
-        //         message:"SKU is invalid"
-        //     }))
-        // }
-
         const result = await itemService.getBySku(sku);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
+        
+    }
+
+    async getByBrand(req,res){
+        const brand = req.params.brand
+
+        const result = await itemService.getByBrand(brand);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
+        
+    }
+
+    async getByCat1(req,res){
+        const cat1 = req.params.cat1
+
+        const result = await itemService.getByCat1(cat1);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
+        
+    }
+
+    async getByCat2(req,res){
+        const cat2 = req.params.cat2
+
+        const result = await itemService.getByCat2(cat2);
 
         res.status(result.status);
 
@@ -94,63 +129,63 @@ class ItemController{
 
     }
 
-    async updateItem(req,res){
-        const sku = req.params.sku
+    // async updateItem(req,res){
+    //     const sku = req.params.sku
 
-        const { 
-            itemName,
-            itemDescription,
-            itemPrice,
-            itemSalePrice,
-            itemDiscount,
-            itemCategory1,
-            itemCategory2,
-            brand,
-            itemPic1,
-            itemPic2,
-            UOM,
-            Qty,
-            hidden,
-            deleted,
-            expiryDate
-        } = req.body;
+    //     const { 
+    //         itemName,
+    //         itemDescription,
+    //         itemPrice,
+    //         itemSalePrice,
+    //         itemDiscount,
+    //         itemCategory1,
+    //         itemCategory2,
+    //         brand,
+    //         itemPic1,
+    //         itemPic2,
+    //         UOM,
+    //         Qty,
+    //         hidden,
+    //         deleted,
+    //         expiryDate
+    //     } = req.body;
 
-        // check that data is valid format or is not an empty string
-        if (typeof sku != "string" || sku === ""){
-            res.status(400);
+    //     // check that data is valid format or is not an empty string
+    //     if (typeof sku != "string" || sku === ""){
+    //         res.status(400);
 
-            return res.json({
-                message: "SKU is invalid"
-            })
-        }
+    //         return res.json({
+    //             message: "SKU is invalid"
+    //         })
+    //     }
 
-        const result = await itemService.updateItem(
-            sku,
-            itemName,
-            itemDescription,
-            itemPrice,
-            itemSalePrice,
-            itemDiscount,
-            itemCategory1,
-            itemCategory2,
-            brand,
-            itemPic1,
-            itemPic2,
-            UOM,
-            Qty,
-            hidden,
-            deleted,
-            expiryDate
-        );
+    //     const result = await itemService.updateItem(
+    //         sku,
+    //         itemName,
+    //         itemDescription,
+    //         itemPrice,
+    //         itemSalePrice,
+    //         itemDiscount,
+    //         itemCategory1,
+    //         itemCategory2,
+    //         brand,
+    //         itemPic1,
+    //         itemPic2,
+    //         UOM,
+    //         Qty,
+    //         hidden,
+    //         deleted,
+    //         expiryDate
+    //     );
 
-        res.status(result.status);
+    //     res.status(result.status);
 
-        return res.json({
-            data: result.data, 
-            message: result.message
-        });
+    //     return res.json({
+    //         data: result.data, 
+    //         message: result.message
+    //     });
         
-    }
+    // }
 }
 
 module.exports = ItemController;

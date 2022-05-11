@@ -11,10 +11,16 @@ const itemController = new ItemController;
 
 router.get("/item", itemController.getAll);
 
-router.get("/item/:sku", itemController.getBySku);
+router.get("/item/sku/:sku", itemController.getBySku);
+
+router.get("/item/category1/:cat1", itemController.getByCat1);
+
+router.get("/item/category2/:cat2", itemController.getByCat2);
+
+router.get("/item/brand/:brand", itemController.getByBrand);
 
 router.post("/item/add", itemController.addItem);
 
-router.put("/item/:sku", itemController.updateItem);
+router.put("/item/update/:sku", itemController.updateItem);
 
 module.exports = router;

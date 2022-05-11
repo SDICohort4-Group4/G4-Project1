@@ -64,3 +64,4 @@ payload:
 xxx=required
 yyy=optional        
 sku is required to be unique
+GET: /item/sku/:sku => get specific item by sku
