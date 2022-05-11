@@ -1,12 +1,12 @@
 // Import database models
-const {Sequelize}=require("sequelize");
+const {Sequelize} = require("sequelize");
 
-let sequelize=null;
+let sequelize = null;
 
 // DB Configuration 
 // checks if DATABASE_URL is available and toggles between heroku or localhost settings
-if (process.env.DATABASE_URL!==undefined) {
-    sequelize= new Sequelize(process.env.DATABASE_URL, {
+if (process.env.DATABASE_URL !== undefined) {
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialectOptions: {
             ssl: {
             require:true,
@@ -16,7 +16,8 @@ if (process.env.DATABASE_URL!==undefined) {
     });
 } else {
     // import local db config
-    const {localdbName,localdbUser,localdbPwd}=require("./localdbconfig");
+    const {localdbName, localdbUser, localdbPwd} = require("./localdbconfig");
+    
     sequelize = new Sequelize(localdbName, localdbUser, localdbPwd, {
     host: "localhost",
     dialect: "postgres",
@@ -36,9 +37,9 @@ if (process.env.DATABASE_URL!==undefined) {
 
 
 // Import db models
-const AdminUser=require("./admin.user.model")(sequelize);
-const User=require("./user.model")(sequelize);
-const Item=require("./item.model")(sequelize);
+const AdminUser = require("./admin.user.model")(sequelize);
+const User = require("./user.model")(sequelize);
+const Item = require("./item.model")(sequelize);
 
 // Create db tables if they do not exist
 // AdminUser.sync();
@@ -57,7 +58,7 @@ async function testConnection() {
     }
 }
 
-module.exports={
+module.exports = {
     sequelize,
     testConnection,
     User,

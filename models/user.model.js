@@ -1,6 +1,6 @@
 const {DataTypes, Model} = require ("sequelize");
 
-module.exports=function(sequelize){
+module.exports = function(sequelize){
   class User extends Model{}
 
   User.init(
@@ -13,7 +13,7 @@ module.exports=function(sequelize){
             userName: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue:"",
+                defaultValue: "",
             },
             userNickname: {
                 type: DataTypes.STRING,

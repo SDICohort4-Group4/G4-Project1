@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 // load key for hashing from common file
-const fs=require("fs");
-const privateKey=fs.readFileSync("./jwttest.key");
+const fs = require("fs");
+const privateKey = fs.readFileSync("./jwttest.key");
 
 
 const verifyJWT = (req, res, next) => {

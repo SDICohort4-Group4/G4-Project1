@@ -1,23 +1,31 @@
-const AdminUserService=require("../services/admin.user.service");
-const adminUserService=new AdminUserService;
+const AdminUserService = require("../services/admin.user.service");
+const adminUserService = new AdminUserService;
 
 class AdminUserController{
 
     // get all admin user data
     async getAll(req,res){
-        const result=await adminUserService.getAll();
+        const result = await adminUserService.getAll();
+
         res.status(result.status);
-        return res.json({data:result.data,message:result.message});
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        });
     };
 
     // create a new admin user
     async register(req,res){
-        const {email,name,role,pwd}=req.body;
+        const {email, name, role, pwd} = req.body;
         // check that data is valid format or is not an empty string
         // check that role is correctly set to either "admin" or "superAdmin"
-        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd==="" || (role!="admin" && role!="superAdmin")){
+        if (typeof email != "string" || typeof pwd != "string" || email === "" || pwd === "" || (role != "admin" && role != "superAdmin")){
             res.status(400);
-            return res.json({message:"Registration information is invalid"})
+
+            return res.json({
+                message: "Registration information is invalid"
+            })
         }
 
         //---------------Can comment out section to remove checks for debugging--------------------
@@ -25,7 +33,10 @@ class AdminUserController{
 
         if (!emailRegex.test(email)) {
             res.status(400);
-            return res.json({message:"Invalid email address"});
+
+            return res.json({
+                message: "Invalid email address"
+            });
         }
 
         //can also add in checks for password complexity 
@@ -38,29 +49,44 @@ class AdminUserController{
         // make sure that admin cannot create super admin
         if (loginRole != 'superAdmin' && role == 'superAdmin') {
             res.status(400);
-            return res.json({message:"Only Super Admin can create new Super Admin accounts"});
+
+            return res.json({
+                message: "Only Super Admin can create new Super Admin accounts"
+            });
         }
 
         // send data to ORM service layer
-        const result=await adminUserService.register(email,name,role,pwd);
+        const result = await adminUserService.register(email, name, role, pwd);
+
         res.status(result.status);
-        return res.json({message:result.message});
+
+        return res.json({
+            message: result.message
+        });
     };
 
     // login an existing admin user
     async login(req,res){
-        const {email,pwd}=req.body;
+        const {email, pwd} = req.body;
+        
         // check that data is valid format or is not an empty string
-        if (typeof email!="string" || typeof pwd!="string" || email==="" || pwd===""){
+        if (typeof email != "string" || typeof pwd != "string" || email === "" || pwd === ""){
             res.status(400);
-            return res.json({message:"Login information is invalid"})
+
+            return res.json({
+                message: "Login information is invalid"
+            })
         }
 
         // send data to ORM service layer
-        const result= await adminUserService.login(email,pwd);
+        const result= await adminUserService.login(email, pwd);
+
         res.status(result.status);
-        return res.json({data:result.data, message:result.message});
-        
+
+        return res.json({
+            data: result.data, 
+            message: result.message
+        });
     }
 
     async delete(req,res) {
@@ -68,7 +94,10 @@ class AdminUserController{
 
         if (typeof targetAdminId !== "number") {
             res.status(400); //bad reqest 
-            return res.json({message: "Invalid Admin ID"});
+
+            return res.json({
+                message: "Invalid Admin ID"
+            });
         }
 
         //consume service layer
@@ -76,10 +105,12 @@ class AdminUserController{
 
         // return service data
         res.status(result.status);
-        return res.json({message: result.message});
-
+        
+        return res.json({
+            message: result.message
+        });
     }
 
 }
 
-module.exports=AdminUserController;
+module.exports = AdminUserController;
