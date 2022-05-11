@@ -116,10 +116,12 @@ class ItemController{
         } = req.body;
 
         // check that data is valid format or is not an empty string
-        if (typeof sku!="string" || sku===""){
+        if (typeof sku != "string" || sku === ""){
             res.status(400);
 
-            return res.json({message:"SKU is invalid"})
+            return res.json({
+                message: "SKU is invalid"
+            })
         }
 
         const result = await itemService.updateItem(
