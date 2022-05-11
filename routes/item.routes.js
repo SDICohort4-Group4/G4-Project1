@@ -15,4 +15,6 @@ router.get("/item/:sku", itemController.getBySku);
 
 router.post("/item/add", itemController.addItem);
 
+router.put("/item/:sku", itemController.updateItem);
+
 module.exports = router;

@@ -93,6 +93,62 @@ class ItemController{
         });
 
     }
+
+    async updateItem(req,res){
+        const sku = req.params.sku
+
+        const { 
+            itemName,
+            itemDescription,
+            itemPrice,
+            itemSalePrice,
+            itemDiscount,
+            itemCategory1,
+            itemCategory2,
+            brand,
+            itemPic1,
+            itemPic2,
+            UOM,
+            Qty,
+            hidden,
+            deleted,
+            expiryDate
+        } = req.body;
+
+        // check that data is valid format or is not an empty string
+        if (typeof sku!="string" || sku===""){
+            res.status(400);
+
+            return res.json({message:"SKU is invalid"})
+        }
+
+        const result = await itemService.updateItem(
+            sku,
+            itemName,
+            itemDescription,
+            itemPrice,
+            itemSalePrice,
+            itemDiscount,
+            itemCategory1,
+            itemCategory2,
+            brand,
+            itemPic1,
+            itemPic2,
+            UOM,
+            Qty,
+            hidden,
+            deleted,
+            expiryDate
+        );
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data, 
+            message: result.message
+        });
+        
+    }
 }
 
 module.exports = ItemController;
