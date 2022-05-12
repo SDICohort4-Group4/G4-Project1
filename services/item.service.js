@@ -195,23 +195,23 @@ class ItemService{
             data: null,
         };
 
-        console.log(
-            `sku: ${sku}, 
-            itemName: ${itemName}, 
-            itemDescription: ${itemDescription}, 
-            itemPrice: ${itemPrice}, 
-            itemSalePrice: ${itemSalePrice}, 
-            itemDiscount: ${itemDiscount}, 
-            itemCategory1: ${itemCategory1}, 
-            itemCategory2: ${itemCategory2}, 
-            brand: ${brand}, 
-            itemPic1: ${itemPic1}, 
-            itemPic2: ${itemPic2}, 
-            UOM: ${UOM}, 
-            Qty: ${Qty}, 
-            hidden: ${hidden}, 
-            deleted: ${deleted}, 
-            expiryDate: ${expiryDate}, `)
+        // console.log(
+        //     `sku: ${sku}, 
+        //     itemName: ${itemName}, 
+        //     itemDescription: ${itemDescription}, 
+        //     itemPrice: ${itemPrice}, 
+        //     itemSalePrice: ${itemSalePrice}, 
+        //     itemDiscount: ${itemDiscount}, 
+        //     itemCategory1: ${itemCategory1}, 
+        //     itemCategory2: ${itemCategory2}, 
+        //     brand: ${brand}, 
+        //     itemPic1: ${itemPic1}, 
+        //     itemPic2: ${itemPic2}, 
+        //     UOM: ${UOM}, 
+        //     Qty: ${Qty}, 
+        //     hidden: ${hidden}, 
+        //     deleted: ${deleted}, 
+        //     expiryDate: ${expiryDate}, `)
 
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
