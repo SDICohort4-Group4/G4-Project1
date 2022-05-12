@@ -303,6 +303,15 @@ class ItemService{
             }
         }
 
+        if(UOM != null){
+            if(typeof UOM == "string"){
+                checkItem.UOM = UOM.toUpperCase();
+                isNotChanged.push(`itemUOM was updated successfully to ${checkItem.UOM}`)
+            } else {
+                isNotChanged.push(`itemUOM was not updated`)
+            }
+        }
+
         if(Qty != null){
             if(typeof Qty == "number" && Qty >= 0){
                 checkItem.Qty = Qty;
