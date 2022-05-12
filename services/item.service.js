@@ -196,7 +196,8 @@ class ItemService{
         };
 
         console.log(
-            `sku: ${sku}, 
+            `item.service layer:
+            sku: ${sku}, 
             itemName: ${itemName}, 
             itemDescription: ${itemDescription}, 
             itemPrice: ${itemPrice}, 
@@ -216,6 +217,9 @@ class ItemService{
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
 
+        let isNotChanged = new Array;
+        let isChanged = new Array;
+
         if (checkItem == null){
             result.message = `Item SKU: ${sku} does not exist`;
             result.status = 400;
@@ -223,71 +227,153 @@ class ItemService{
             return result;
         }
         
-        // function isValidURL(string) {
-        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        function isValidURL(string) {
+            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+
+            return (result !== null)
+        }
+
+        // function isValidDate(string){
+        //     var result = string.match(/^\d{2}([./-])\d{2}\1\d{4}$/)
 
         //     return (result !== null)
         // }
 
-        // if(itemName != null){
-        //     checkItem.itemName = itemName;
-        // }
+        if(itemName != null){
+            if(typeof itemName != "string"){
+                isNotChanged.push(`itemName was not updated`)
+            } else {
+                checkItem.itemName = itemName;
+                isNotChanged.push(`itemName was updated successfully to "${checkItem.itemName}"`)
+            }
+        }
 
         if(itemDescription != null){
-            checkItem.itemDescription = itemDescription;
+            if(typeof itemDescription != "string"){
+                isNotChanged.push(`itemDescription was not updated`)
+            } else {
+                checkItem.itemDescription = itemDescription;
+                isNotChanged.push(`itemDescription was updated successfully to "${checkItem.itemDescription}"`)
+            }
         }
 
-        if(itemPrice != null && (typeof itemPrice == "number") && itemPrice >= 0){
-            checkItem.itemPrice = itemPrice;
+        if(itemPrice != null){
+            if(typeof itemPrice == "number" && itemPrice >= 0){
+                checkItem.itemPrice = itemPrice;
+                isNotChanged.push(`itemPrice was updated successfully to $${checkItem.itemPrice}`)
+            } else {
+                isNotChanged.push(`itemPrice was not updated`)
+            }
         }
 
-        if(itemSalePrice != null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
-            checkItem.itemSalePrice = itemSalePrice;
+        if(itemSalePrice != null){
+            if(typeof itemSalePrice == "number" && itemSalePrice >= 0){
+                checkItem.itemSalePrice = itemSalePrice;
+                isNotChanged.push(`itemSalePrice was updated successfully to $${checkItem.itemSalePrice}`)
+            } else {
+                isNotChanged.push(`ItemSalePrice was not updated`)
+            }
         }
 
-        if(itemDiscount != null && (typeof itemDiscount == "number") && itemDiscount >= 0){
-            checkItem.itemDiscount = itemDiscount;
+        if(itemDiscount != null){
+            if(typeof itemDiscount == "number" && itemDiscount >= 0){
+                checkItem.itemDiscount = itemDiscount;
+                isNotChanged.push(`itemDiscount was updated successfully to ${checkItem.itemDiscount}`)
+            } else {
+                isNotChanged.push(`itemDiscount was not updated`)
+            }
         }
 
-        if(itemCategory1 != null && (typeof itemCategory1 == "string")){
-            checkItem.itemCategory1 = itemCategory1;
+        if(itemCategory1 != null){
+            if(typeof itemCategory1 == "string"){
+                checkItem.itemCategory1 = itemCategory1;
+                isNotChanged.push(`itemCategory1 was updated successfully to ${checkItem.itemCategory1}`)
+            } else {
+                isNotChanged.push(`itemCategory1 was not updated`)
+            }
         }
 
-        if(itemCategory2 != null && (typeof itemCategory2 == "string")){
-            checkItem.itemCategory2 = itemCategory2;
+        if(itemCategory2 != null){
+            if(typeof itemCategory2 == "string"){
+                checkItem.itemCategory2 = itemCategory2;
+                isNotChanged.push(`itemCategory2 was updated successfully to ${checkItem.itemCategory2}`)
+            } else {
+                isNotChanged.push(`itemCategory2 was not updated`)
+            }
         }
 
-        if(brand != null && (typeof brand == "string")){
-            checkItem.brand = brand;
+        if(brand != null){
+            if(typeof brand == "string"){
+                checkItem.brand = brand;
+                isNotChanged.push(`brand was updated successfully to ${checkItem.brand}`)
+            } else {
+                isNotChanged.push('brand was not updated')
+            }
         }
 
-        // if(itemPic1 !== null && isValidURL(itemPic1)){
-        //     checkItem.itemPic1 = itemPic1;
-        // }
-
-        // if(itemPic2 !== null && isValidURL(itemPic2)){
-        //     checkItem.itemPic2 = itemPic2;
-        // }
-
-        if(Qty != null && (typeof Qty == "number") && Qty >= 0){
-            checkItem.Qty = Qty;
+        if(itemPic1 != null){
+            if(isValidURL(itemPic1)){
+                checkItem.itemPic1 = itemPic1;
+                isNotChanged.push(`itemPic1 was updated successfully to ${checkItem.itemPic1}`)
+            } else {
+                isNotChanged.push(`itemPic1 was not updated`)
+            }
         }
 
-        if(hidden != null && (typeof hidden == "boolean")){
-            checkItem.hidden = hidden;
+        if(itemPic2 != null && isValidURL(itemPic2)){
+            if(isValidURL(itemPic2)){
+                checkItem.itemPic2 = itemPic2;
+                isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
+            } else {
+                isNotChanged.push(`itemPic2 was not updated`)
+            }
         }
 
-        if(deleted != null && (typeof deleted == "boolean")){
-            checkItem.deleted = deleted;
+        if(Qty != null){
+            if(typeof Qty == "number" && Qty >= 0){
+                checkItem.Qty = Qty;
+                isNotChanged.push(`Qty was updated successfully to ${checkItem.Qty}`)
+            } else {
+                isNotChanged.push(`Qty was not updated`)
+            }
+        }
+
+        if(hidden != null){
+            if(typeof hidden == "boolean"){
+                checkItem.hidden = hidden;
+                isNotChanged.push(`"hidden" field was updated successfully to ${checkItem.hidden}`)
+            } else {
+                isNotChanged.push(`"hidden" field was not updated`)
+            }
+        }
+
+        if(deleted != null){
+            if(typeof deleted == "boolean"){
+                checkItem.deleted = deleted;
+                isNotChanged.push(`"deleted" field was updated successfully to ${checkItem.deleted}`)
+            } else {
+                isNotChanged.push(`"deleted" field was not updated`)
+            }
         }
 
         if(expiryDate != null){
-            checkItem.expiryDate = expiryDate;
+            if(expiryDate == "string"){
+                checkItem.expiryDate = expiryDate;
+                isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
+            } else {
+                isNotChanged.push(`expiryDate was not updated`)
+            }
         }
         
         await checkItem.save();
         
-        result.message = "Item Successfully Updated";
+        if(isNotChanged.length > 0){
+            console.log(isNotChanged)
+            result.message = isNotChanged;
+        } else {
+            result.message = "Nothing was changed";
+        }
+
         result.status = 200;
         result.data = await Item.findOne({where:{SKU:sku}})
 
