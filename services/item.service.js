@@ -278,7 +278,7 @@ class ItemService{
         };
 
         // check whether item sku already exists
-        const checkItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
+        const checkItem = await Item.findOne({where:{SKU:sku}});
 
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
