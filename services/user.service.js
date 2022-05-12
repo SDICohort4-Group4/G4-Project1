@@ -74,7 +74,7 @@ class UserService{
         let userInfo = {
             id: null,
             email: null,
-            pwd: null,
+            role: "user",
         }
 
         // check whether user exists in db
