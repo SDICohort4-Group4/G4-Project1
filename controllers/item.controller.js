@@ -15,6 +15,17 @@ class ItemController{
         });
     };
 
+    async adminGetAll(req,res){
+        const result = await itemService.adminGetAll();
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        });
+    }
+
     //get specific item by SKU
     async getBySku(req,res){
         const sku = req.params.sku
@@ -27,7 +38,19 @@ class ItemController{
             data: result.data,
             message: result.message
         })
-        
+    }
+
+    async adminGetBySku(req,res){
+        const sku = req.params.sku
+
+        const result = await itemService.adminGetBySku(sku);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
     }
 
     async getByBrand(req,res){
@@ -41,7 +64,20 @@ class ItemController{
             data: result.data,
             message: result.message
         })
-        
+    }
+
+    
+    async adminGetByBrand(req,res){
+        const brand = req.params.brand
+
+        const result = await itemService.adminGetByBrand(brand);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
     }
 
     async getByCat1(req,res){
@@ -55,7 +91,20 @@ class ItemController{
             data: result.data,
             message: result.message
         })
-        
+    }
+
+    
+    async adminGetByCat1(req,res){
+        const cat1 = req.params.cat1
+
+        const result = await itemService.adminGetByCat1(cat1);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
     }
 
     async getByCat2(req,res){
@@ -69,7 +118,19 @@ class ItemController{
             data: result.data,
             message: result.message
         })
-        
+    }
+
+    async adminGetByCat2(req,res){
+        const cat2 = req.params.cat2
+
+        const result = await itemService.adminGetByCat2(cat2);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
     }
 
     // add a new item
@@ -126,7 +187,6 @@ class ItemController{
             data: result.data, 
             message: result.message
         });
-
     }
 
     async updateItem(req,res){
