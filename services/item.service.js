@@ -196,8 +196,7 @@ class ItemService{
         };
 
         console.log(
-            `item.service layer:
-            sku: ${sku}, 
+            `sku: ${sku}, 
             itemName: ${itemName}, 
             itemDescription: ${itemDescription}, 
             itemPrice: ${itemPrice}, 
@@ -224,65 +223,65 @@ class ItemService{
             return result;
         }
         
-        function isValidURL(string) {
-            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        // function isValidURL(string) {
+        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
-            return (result !== null)
-        }
+        //     return (result !== null)
+        // }
 
-        if(itemName !== null){
-            checkItem.itemName = itemName;
-        }
+        // if(itemName != null){
+        //     checkItem.itemName = itemName;
+        // }
 
-        if(itemDescription !== null){
+        if(itemDescription != null){
             checkItem.itemDescription = itemDescription;
         }
 
-        if(itemPrice !== null && (typeof itemPrice == "number") && itemPrice >= 0){
+        if(itemPrice != null && (typeof itemPrice == "number") && itemPrice >= 0){
             checkItem.itemPrice = itemPrice;
         }
 
-        if(itemSalePrice !== null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
+        if(itemSalePrice != null && (typeof itemSalePrice == "number") && itemSalePrice >= 0){
             checkItem.itemSalePrice = itemSalePrice;
         }
 
-        if(itemDiscount !== null && (typeof itemDiscount == "number") && itemDiscount >= 0){
+        if(itemDiscount != null && (typeof itemDiscount == "number") && itemDiscount >= 0){
             checkItem.itemDiscount = itemDiscount;
         }
 
-        if(itemCategory1 !== null && (typeof itemCategory1 == "string")){
+        if(itemCategory1 != null && (typeof itemCategory1 == "string")){
             checkItem.itemCategory1 = itemCategory1;
         }
 
-        if(itemCategory2 !== null && (typeof itemCategory2 == "string")){
+        if(itemCategory2 != null && (typeof itemCategory2 == "string")){
             checkItem.itemCategory2 = itemCategory2;
         }
 
-        if(brand !== null && (typeof brand == "string")){
+        if(brand != null && (typeof brand == "string")){
             checkItem.brand = brand;
         }
 
-        if(itemPic1 !== null && isValidURL(itemPic1)){
-            checkItem.itemPic1 = itemPic1;
-        }
+        // if(itemPic1 !== null && isValidURL(itemPic1)){
+        //     checkItem.itemPic1 = itemPic1;
+        // }
 
-        if(itemPic2 !== null && isValidURL(itemPic2)){
-            checkItem.itemPic2 = itemPic2;
-        }
+        // if(itemPic2 !== null && isValidURL(itemPic2)){
+        //     checkItem.itemPic2 = itemPic2;
+        // }
 
-        if(Qty !== null && (typeof Qty == "number") && Qty >= 0){
+        if(Qty != null && (typeof Qty == "number") && Qty >= 0){
             checkItem.Qty = Qty;
         }
 
-        if(hidden !== null && (typeof hidden == "boolean")){
+        if(hidden != null && (typeof hidden == "boolean")){
             checkItem.hidden = hidden;
         }
 
-        if(deleted !== null && (typeof deleted == "boolean")){
+        if(deleted != null && (typeof deleted == "boolean")){
             checkItem.deleted = deleted;
         }
 
-        if(expiryDate !== null){
+        if(expiryDate != null){
             checkItem.expiryDate = expiryDate;
         }
         

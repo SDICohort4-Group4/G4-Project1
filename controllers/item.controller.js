@@ -151,8 +151,7 @@ class ItemController{
         } = req.body;
 
         console.log(
-            `item.controller layer:
-            sku: ${sku}, 
+            `sku: ${sku}, 
             itemName: ${itemName}, 
             itemDescription: ${itemDescription}, 
             itemPrice: ${itemPrice}, 
