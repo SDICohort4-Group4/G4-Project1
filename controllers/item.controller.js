@@ -150,25 +150,6 @@ class ItemController{
             expiryDate
         } = req.body;
 
-        console.log(
-            `item.controller layer:
-            sku: ${sku}, 
-            itemName: ${itemName}, 
-            itemDescription: ${itemDescription}, 
-            itemPrice: ${itemPrice}, 
-            itemSalePrice: ${itemSalePrice}, 
-            itemDiscount: ${itemDiscount}, 
-            itemCategory1: ${itemCategory1}, 
-            itemCategory2: ${itemCategory2}, 
-            brand: ${brand}, 
-            itemPic1: ${itemPic1}, 
-            itemPic2: ${itemPic2}, 
-            UOM: ${UOM}, 
-            Qty: ${Qty}, 
-            hidden: ${hidden}, 
-            deleted: ${deleted}, 
-            expiryDate: ${expiryDate}, `)
-
         // check that data is valid format or is not an empty string
         if (typeof sku != "string" || sku === ""){
             res.status(400);

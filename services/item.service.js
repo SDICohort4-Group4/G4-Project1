@@ -27,7 +27,7 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findOne({where:{SKU:sku}});
+        const getItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -50,7 +50,7 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findAll({where:{brand:brand}});
+        const getItem = await Item.findAll({where:{brand:brand.toUpperCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -73,7 +73,7 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findAll({where:{itemCategory1:cat1}});
+        const getItem = await Item.findAll({where:{itemCategory1:cat1.toUpperCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -96,7 +96,7 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findAll({where:{itemCategory2:cat2}});
+        const getItem = await Item.findAll({where:{itemCategory2:cat2.toUpperCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -137,7 +137,7 @@ class ItemService{
         };
 
         // check whether item sku already exists
-        const checkItem = await Item.findOne({where:{SKU:sku}});
+        const checkItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
 
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
@@ -154,9 +154,9 @@ class ItemService{
             itemPrice: itemPrice,
             itemSalePrice: itemSalePrice,
             itemDiscount: itemDiscount,
-            itemCategory1: itemCategory1,
-            itemCategory2: itemCategory2,
-            brand: brand,
+            itemCategory1: itemCategory1.toUpperCase(),
+            itemCategory2: itemCategory2.toUpperCase(),
+            brand: brand.toUpperCase(),
             itemPic1: itemPic1,
             itemPic2: itemPic2,
             UOM: UOM,
@@ -195,30 +195,10 @@ class ItemService{
             data: null,
         };
 
-        console.log(
-            `item.service layer:
-            sku: ${sku}, 
-            itemName: ${itemName}, 
-            itemDescription: ${itemDescription}, 
-            itemPrice: ${itemPrice}, 
-            itemSalePrice: ${itemSalePrice}, 
-            itemDiscount: ${itemDiscount}, 
-            itemCategory1: ${itemCategory1}, 
-            itemCategory2: ${itemCategory2}, 
-            brand: ${brand}, 
-            itemPic1: ${itemPic1}, 
-            itemPic2: ${itemPic2}, 
-            UOM: ${UOM}, 
-            Qty: ${Qty}, 
-            hidden: ${hidden}, 
-            deleted: ${deleted}, 
-            expiryDate: ${expiryDate}, `)
-
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
 
         let isNotChanged = new Array;
-        let isChanged = new Array;
 
         if (checkItem == null){
             result.message = `Item SKU: ${sku} does not exist`;
@@ -227,18 +207,6 @@ class ItemService{
             return result;
         }
         
-        function isValidURL(string) {
-            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-
-            return (result !== null)
-        }
-
-        // function isValidDate(string){
-        //     var result = string.match(/^\d{2}([./-])\d{2}\1\d{4}$/)
-
-        //     return (result !== null)
-        // }
-
         if(itemName != null){
             if(typeof itemName != "string"){
                 isNotChanged.push(`itemName was not updated`)
@@ -286,7 +254,7 @@ class ItemService{
 
         if(itemCategory1 != null){
             if(typeof itemCategory1 == "string"){
-                checkItem.itemCategory1 = itemCategory1;
+                checkItem.itemCategory1 = itemCategory1.toUpperCase();
                 isNotChanged.push(`itemCategory1 was updated successfully to ${checkItem.itemCategory1}`)
             } else {
                 isNotChanged.push(`itemCategory1 was not updated`)
@@ -295,7 +263,7 @@ class ItemService{
 
         if(itemCategory2 != null){
             if(typeof itemCategory2 == "string"){
-                checkItem.itemCategory2 = itemCategory2;
+                checkItem.itemCategory2 = itemCategory2.toUpperCase();
                 isNotChanged.push(`itemCategory2 was updated successfully to ${checkItem.itemCategory2}`)
             } else {
                 isNotChanged.push(`itemCategory2 was not updated`)
@@ -304,7 +272,7 @@ class ItemService{
 
         if(brand != null){
             if(typeof brand == "string"){
-                checkItem.brand = brand;
+                checkItem.brand = brand.toUpperCase();
                 isNotChanged.push(`brand was updated successfully to ${checkItem.brand}`)
             } else {
                 isNotChanged.push('brand was not updated')
@@ -320,7 +288,7 @@ class ItemService{
             }
         }
 
-        if(itemPic2 != null && isValidURL(itemPic2)){
+        if(itemPic2 != null){
             if(isValidURL(itemPic2)){
                 checkItem.itemPic2 = itemPic2;
                 isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
@@ -355,20 +323,10 @@ class ItemService{
                 isNotChanged.push(`"deleted" field was not updated`)
             }
         }
-
-        if(expiryDate != null){
-            if(expiryDate == "string"){
-                checkItem.expiryDate = expiryDate;
-                isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
-            } else {
-                isNotChanged.push(`expiryDate was not updated`)
-            }
-        }
         
         await checkItem.save();
         
         if(isNotChanged.length > 0){
-            console.log(isNotChanged)
             result.message = isNotChanged;
         } else {
             result.message = "Nothing was changed";
