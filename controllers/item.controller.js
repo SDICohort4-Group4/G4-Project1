@@ -129,63 +129,81 @@ class ItemController{
 
     }
 
-    // async updateItem(req,res){
-    //     const sku = req.params.sku
+    async updateItem(req,res){
+        const sku = req.params.sku
 
-    //     const { 
-    //         itemName,
-    //         itemDescription,
-    //         itemPrice,
-    //         itemSalePrice,
-    //         itemDiscount,
-    //         itemCategory1,
-    //         itemCategory2,
-    //         brand,
-    //         itemPic1,
-    //         itemPic2,
-    //         UOM,
-    //         Qty,
-    //         hidden,
-    //         deleted,
-    //         expiryDate
-    //     } = req.body;
+        const { 
+            itemName,
+            itemDescription,
+            itemPrice,
+            itemSalePrice,
+            itemDiscount,
+            itemCategory1,
+            itemCategory2,
+            brand,
+            itemPic1,
+            itemPic2,
+            UOM,
+            Qty,
+            hidden,
+            deleted,
+            expiryDate
+        } = req.body;
 
-    //     // check that data is valid format or is not an empty string
-    //     if (typeof sku != "string" || sku === ""){
-    //         res.status(400);
+        console.log(
+            `sku: ${sku}, 
+            itemName: ${itemName}, 
+            itemDescription: ${itemDescription}, 
+            itemPrice: ${itemPrice}, 
+            itemSalePrice: ${itemSalePrice}, 
+            itemDiscount: ${itemDiscount}, 
+            itemCategory1: ${itemCategory1}, 
+            itemCategory2: ${itemCategory2}, 
+            brand: ${brand}, 
+            itemPic1: ${itemPic1}, 
+            itemPic2: ${itemPic2}, 
+            UOM: ${UOM}, 
+            Qty: ${Qty}, 
+            hidden: ${hidden}, 
+            deleted: ${deleted}, 
+            expiryDate: ${expiryDate}, `)
 
-    //         return res.json({
-    //             message: "SKU is invalid"
-    //         })
-    //     }
+        // check that data is valid format or is not an empty string
+        if (typeof sku != "string" || sku === ""){
+            res.status(400);
 
-    //     const result = await itemService.updateItem(
-    //         sku,
-    //         itemName,
-    //         itemDescription,
-    //         itemPrice,
-    //         itemSalePrice,
-    //         itemDiscount,
-    //         itemCategory1,
-    //         itemCategory2,
-    //         brand,
-    //         itemPic1,
-    //         itemPic2,
-    //         UOM,
-    //         Qty,
-    //         hidden,
-    //         deleted,
-    //         expiryDate
-    //     );
+            return res.json({
+                message: "SKU is invalid"
+            })
+        }
 
-    //     res.status(result.status);
+        const result = await itemService.updateItem(
+            sku,
+            itemName,
+            itemDescription,
+            itemPrice,
+            itemSalePrice,
+            itemDiscount,
+            itemCategory1,
+            itemCategory2,
+            brand,
+            itemPic1,
+            itemPic2,
+            UOM,
+            Qty,
+            hidden,
+            deleted,
+            expiryDate
+        );
 
-    //     return res.json({
-    //         data: result.data, 
-    //         message: result.message
-    //     });
+        res.status(result.status);
+
+        return res.json({
+            data: result.data, 
+            message: result.message
+        });
         
-    // }
+    }
 }
 
 module.exports = ItemController;
