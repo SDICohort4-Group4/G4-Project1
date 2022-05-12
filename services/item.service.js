@@ -348,17 +348,17 @@ class ItemService{
             return result;
         }
 
-        function isValidURL(string) {
-            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        // function isValidURL(string) {
+        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
-            return (result !== null)
-        }
+        //     return (result !== null)
+        // }
 
-        function isValidDate(string){
-            var result = string.match(/^\d{4}([./-])\d{2}\1\d{2}$/)
+        // function isValidDate(string){
+        //     var result = string.match(/^\d{4}([./-])\d{2}\1\d{2}$/)
 
-            return (result != null)
-        }
+        //     return (result != null)
+        // }
         
         if(itemName != null){
             if(typeof itemName != "string"){
@@ -433,7 +433,7 @@ class ItemService{
         }
 
         if(itemPic1 != null){
-            if(isValidURL(itemPic1)){
+            if(typeof itemPic1 == "string"){
                 checkItem.itemPic1 = itemPic1;
                 isNotChanged.push(`itemPic1 was updated successfully to ${checkItem.itemPic1}`)
             } else {
@@ -442,7 +442,7 @@ class ItemService{
         }
 
         if(itemPic2 != null){
-            if(isValidURL(itemPic2)){
+            if(typeof itemPic1 == "string"){
                 checkItem.itemPic2 = itemPic2;
                 isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
             } else {
@@ -487,7 +487,7 @@ class ItemService{
         }
         
         if(expiryDate != null){
-            if(typeof expiryDate == "string" && isValidDate(expiryDate)){
+            if(typeof expiryDate == "string"){
                 checkItem.expiryDate = expiryDate;
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
