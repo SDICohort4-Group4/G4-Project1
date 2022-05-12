@@ -288,7 +288,7 @@ class ItemService{
         }
       
         // create the item in the db
-        await Item.create({ 
+        const newItem = Item.build({ 
             SKU: sku,
             itemName: itemName,
             itemDescription: itemDescription,
@@ -305,6 +305,8 @@ class ItemService{
             hidden: hidden,
             expiryDate: expiryDate
         });
+        
+        await newItem.save();
         
         result.message = "Item Successfully added";
         result.status = 200;
