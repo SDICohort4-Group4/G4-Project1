@@ -442,7 +442,7 @@ class ItemService{
         }
 
         if(itemPic2 != null){
-            if(typeof itemPic1 == "string"){
+            if(typeof itemPic2 == "string"){
                 checkItem.itemPic2 = itemPic2;
                 isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
             } else {
