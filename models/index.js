@@ -42,15 +42,15 @@ const User = require("./user.model")(sequelize);
 const Item = require("./item.model")(sequelize);
 
 // create foreign key associations
-Item.belongsTo(AdminUser,{
-    foreignKey:"createdByAdminID",
-    foreignKey:"updatedByAdminID",
-})
+// Item.belongsTo(AdminUser,{
+//     foreignKey:"createdByAdminID",
+//     foreignKey:"updatedByAdminID",
+// })
 
 // Create db tables if they do not exist
-// AdminUser.sync();
-// User.sync();
-// Item.sync();
+AdminUser.sync();
+User.sync();
+Item.sync();
 
 // Test connection function
 async function testConnection() {
