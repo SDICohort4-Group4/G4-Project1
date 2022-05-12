@@ -26,14 +26,14 @@ router.post("/item/add",verifyJWT, verifyRoles('admin', 'superAdmin'), itemContr
 
 router.put("/item/update/:sku", itemController.updateItem);
 
-router.get("/admin/item", verifyRoles('admin', 'superAdmin'), itemController.adminGetAll)
+router.get("/admin/item", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetAll)
 
-router.get("/admin/item/sku/:sku", verifyRoles('admin', 'superAdmin'), itemController.adminGetBySku)
+router.get("/admin/item/sku/:sku", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetBySku)
 
-router.get("/admin/item/category1/:cat1", verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat1);
+router.get("/admin/item/category1/:cat1", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat1);
 
-router.get("/admin/item/category2/:cat2", verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat2);
+router.get("/admin/item/category2/:cat2", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat2);
 
-router.get("/admin/item/brand/:brand", verifyRoles('admin', 'superAdmin'), itemController.adminGetByBrand);
+router.get("/admin/item/brand/:brand", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByBrand);
 
 module.exports = router;
