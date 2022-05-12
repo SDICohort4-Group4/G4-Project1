@@ -1,7 +1,8 @@
 <!-- // API Endpoints -->
 
 Admin Users:
-GET: /admin => get all admin users
+GET: /admin => get all admin users (requires login first)
+
 POST: /admin/register => create and add a new admin if name does not already exist,
 payload:
 {
@@ -17,6 +18,13 @@ email is required to be unique
 
 POST: /admin/login => checks name and hashed password against database and returns a JSONWebtoken if password 
                       correct
+
+PUT: /admin/update-password
+{
+"email":"xxx",
+"currentPwd":"xxx",
+"newPwd":"xxx"
+}
 
 DELETE: /admin/:adminId => deletes admin user based on adminID
 
@@ -41,8 +49,14 @@ POST: /user/login => checks name hashed password against database and returns a 
 
 
 Items:
-GET: /user => get all items
-POST: /item/add =>add an item, SKU and item name are required.
+GET: 
+/user => get all items
+/item/sku/:sku => find an item by sku
+/item/category1/:cat1 => find items by category1
+/item/category2/"cat2 => find items by category2
+/item/brand/:brand => find items by brand
+
+POST: /item/add =>add an item, SKU and item name are required. (require admin login)
 payload:
 {
     "sku": "xxx",
@@ -65,3 +79,6 @@ xxx=required
 yyy=optional        
 sku is required to be unique
 GET: /item/sku/:sku => get specific item by sku
+
+PUT: /item/update/:sku => update item with sku
+payload as per items that needs to be changed
