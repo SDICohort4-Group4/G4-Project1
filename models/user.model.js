@@ -27,18 +27,22 @@ module.exports = function(sequelize){
             userPwd: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                defaultValue:"",
             },
             userAddress1: {
                 type: DataTypes.STRING,
                 allowNull: true,
+                defaultValue:"",
             },
             userAddress2: {
                 type: DataTypes.STRING,
                 allowNull: true,
+                defaultValue:"",
             },
             userPostalCode: {
                 type: DataTypes.STRING,
                 allowNull: true,
+                defaultValue:"",
             },
             userCountry: {
                 type: DataTypes.STRING,
@@ -53,6 +57,7 @@ module.exports = function(sequelize){
             userPhoneNum: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
+                defaultValue:0,
             },
             createdAt: {
                 type: DataTypes.DATE,
