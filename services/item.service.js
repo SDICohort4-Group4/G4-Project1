@@ -2,8 +2,43 @@ const {Item} = require("../models")
 
 class ItemService{
 
+    excludeData = [                
+        "itemID", 
+        "itemPrice", 
+        "itemDiscount", 
+        "hidden", 
+        "deleted", 
+        "expiryDate", 
+        "createdByAdminID", 
+        "updatedByAdminID", 
+        "createdAt", 
+        "updatedAt"
+    ]
+
+
     // retrieve all item data from the db
     async getAll(){
+        let result = {
+            message:null,
+            status:null,
+            data:null,
+        };
+        
+
+        const getAllItems = await Item.findAll({
+            attributes: {exclude: this.excludeData}
+        });
+
+        // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
+
+        result.message = "All Items retrieved";
+        result.data = getAllItems;
+        result.status = 200;
+
+        return result;
+    };
+
+    async adminGetAll(){
         let result = {
             message:null,
             status:null,
@@ -17,7 +52,7 @@ class ItemService{
         result.status = 200;
 
         return result;
-    };
+    }
 
     // get specific item data from the db
     async getBySku(sku){
@@ -27,7 +62,33 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findOne({where:{SKU:sku}});
+        const getItem = await Item.findOne({
+            where:{SKU:sku.toLowerCase()},
+            attributes: {exclude: this.excludeData}
+        });
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    async adminGetBySku(sku){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -49,8 +110,34 @@ class ItemService{
             status: null,
             data: null,
         }
+      
+        const getItem = await Item.findAll({
+            where:{brand:brand.toUpperCase()},
+            attributes: { exclude: this.excludeData}
+        });
 
-        const getItem = await Item.findAll({where:{brand:brand}});
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    async adminGetByBrand(brand){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+      
+        const getItem = await Item.findAll({where:{brand:brand.toUpperCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -73,7 +160,35 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findAll({where:{itemCategory1:cat1}});
+        const getItem = await Item.findAll({
+            where:{itemCategory1:cat1.toUpperCase()},
+            attributes: { exclude: this.excludeData}
+        });
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    
+    async adminGetByCat1(cat1){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findAll({where:{itemCategory1:cat1.toUpperCase()}
+        });
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -96,7 +211,33 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findAll({where:{itemCategory2:cat2}});
+        const getItem = await Item.findAll({
+            where:{itemCategory2:cat2.toUpperCase()},
+            attributes: { exclude: this.excludeData}
+        });
+
+        if(getItem == null){
+            result.message = `Item SKU: ${sku} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
+    async adminGetByCat2(cat2){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        const getItem = await Item.findAll({where:{itemCategory2:cat2.toUpperCase()}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
@@ -137,7 +278,7 @@ class ItemService{
         };
 
         // check whether item sku already exists
-        const checkItem = await Item.findOne({where:{SKU:sku}});
+        const checkItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
 
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
@@ -154,9 +295,9 @@ class ItemService{
             itemPrice: itemPrice,
             itemSalePrice: itemSalePrice,
             itemDiscount: itemDiscount,
-            itemCategory1: itemCategory1,
-            itemCategory2: itemCategory2,
-            brand: brand,
+            itemCategory1: itemCategory1.toUpperCase(),
+            itemCategory2: itemCategory2.toUpperCase(),
+            brand: brand.toUpperCase(),
             itemPic1: itemPic1,
             itemPic2: itemPic2,
             UOM: UOM,
@@ -195,30 +336,10 @@ class ItemService{
             data: null,
         };
 
-        console.log(
-            `item.service layer:
-            sku: ${sku}, 
-            itemName: ${itemName}, 
-            itemDescription: ${itemDescription}, 
-            itemPrice: ${itemPrice}, 
-            itemSalePrice: ${itemSalePrice}, 
-            itemDiscount: ${itemDiscount}, 
-            itemCategory1: ${itemCategory1}, 
-            itemCategory2: ${itemCategory2}, 
-            brand: ${brand}, 
-            itemPic1: ${itemPic1}, 
-            itemPic2: ${itemPic2}, 
-            UOM: ${UOM}, 
-            Qty: ${Qty}, 
-            hidden: ${hidden}, 
-            deleted: ${deleted}, 
-            expiryDate: ${expiryDate}, `)
-
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
 
         let isNotChanged = new Array;
-        let isChanged = new Array;
 
         if (checkItem == null){
             result.message = `Item SKU: ${sku} does not exist`;
@@ -226,19 +347,19 @@ class ItemService{
 
             return result;
         }
-        
+
         function isValidURL(string) {
             var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
             return (result !== null)
         }
 
-        // function isValidDate(string){
-        //     var result = string.match(/^\d{2}([./-])\d{2}\1\d{4}$/)
+        function isValidDate(string){
+            var result = string.match(/^\d{4}([./-])\d{2}\1\d{2}$/)
 
-        //     return (result !== null)
-        // }
-
+            return (result != null)
+        }
+        
         if(itemName != null){
             if(typeof itemName != "string"){
                 isNotChanged.push(`itemName was not updated`)
@@ -286,7 +407,7 @@ class ItemService{
 
         if(itemCategory1 != null){
             if(typeof itemCategory1 == "string"){
-                checkItem.itemCategory1 = itemCategory1;
+                checkItem.itemCategory1 = itemCategory1.toUpperCase();
                 isNotChanged.push(`itemCategory1 was updated successfully to ${checkItem.itemCategory1}`)
             } else {
                 isNotChanged.push(`itemCategory1 was not updated`)
@@ -295,7 +416,7 @@ class ItemService{
 
         if(itemCategory2 != null){
             if(typeof itemCategory2 == "string"){
-                checkItem.itemCategory2 = itemCategory2;
+                checkItem.itemCategory2 = itemCategory2.toUpperCase();
                 isNotChanged.push(`itemCategory2 was updated successfully to ${checkItem.itemCategory2}`)
             } else {
                 isNotChanged.push(`itemCategory2 was not updated`)
@@ -304,7 +425,7 @@ class ItemService{
 
         if(brand != null){
             if(typeof brand == "string"){
-                checkItem.brand = brand;
+                checkItem.brand = brand.toUpperCase();
                 isNotChanged.push(`brand was updated successfully to ${checkItem.brand}`)
             } else {
                 isNotChanged.push('brand was not updated')
@@ -320,12 +441,21 @@ class ItemService{
             }
         }
 
-        if(itemPic2 != null && isValidURL(itemPic2)){
+        if(itemPic2 != null){
             if(isValidURL(itemPic2)){
                 checkItem.itemPic2 = itemPic2;
                 isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
             } else {
                 isNotChanged.push(`itemPic2 was not updated`)
+            }
+        }
+
+        if(UOM != null){
+            if(typeof UOM == "string"){
+                checkItem.UOM = UOM.toUpperCase();
+                isNotChanged.push(`itemUOM was updated successfully to ${checkItem.UOM}`)
+            } else {
+                isNotChanged.push(`itemUOM was not updated`)
             }
         }
 
@@ -355,20 +485,19 @@ class ItemService{
                 isNotChanged.push(`"deleted" field was not updated`)
             }
         }
-
+        
         if(expiryDate != null){
-            if(expiryDate == "string"){
+            if(typeof expiryDate == "string" && isValidDate(expiryDate)){
                 checkItem.expiryDate = expiryDate;
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
-                isNotChanged.push(`expiryDate was not updated`)
+                isNotChanged.push(`expiryDate field was not updated`)
             }
         }
         
         await checkItem.save();
         
         if(isNotChanged.length > 0){
-            console.log(isNotChanged)
             result.message = isNotChanged;
         } else {
             result.message = "Nothing was changed";
