@@ -155,6 +155,7 @@ class ItemService{
         const checkItem = await Item.findOne({where:{SKU:sku}});
         
         if (checkItem !== null){
+            result.data = await Item.findOne({where:{SKU:sku}})
             result.message = `Item SKU: ${sku} already exists`;
             result.status = 400;
 
