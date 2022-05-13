@@ -21,7 +21,7 @@ class ItemController{
         const property = req.params.property;
         const value = req.params.value;
 
-        const result = await itemService.getBy(property, value);
+        const result = await itemService.adminGetBy(property, value);
 
         res.status(result.status);
 
