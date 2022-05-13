@@ -27,7 +27,6 @@ module.exports = function(sequelize){
             userPwd: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue:"",
             },
             userAddress1: {
                 type: DataTypes.STRING,

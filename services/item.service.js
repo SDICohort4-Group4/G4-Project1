@@ -279,14 +279,25 @@ class ItemService{
 
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
-
+        
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
             result.status = 400;
 
             return result;
         }
-      
+        
+        // checks whether category1/category2/brands have values and convert to uppercase if yes
+        if (itemCategory1) {
+            itemCategory1=itemCategory1.toUpperCase();
+        }
+        if (itemCategory2){
+            itemCategory2=itemCategory2.toUpperCase();
+        }
+        if (brand){
+            brand=brand.toUpperCase();
+        }
+        
         // create the item in the db
         await Item.create({ 
             SKU: sku,

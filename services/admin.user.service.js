@@ -38,7 +38,7 @@ class AdminUserService{
         // search the db and find whether the user email already exists
         const checkUser = await AdminUser.findOne({where:{adminEmail:email}});
 
-        if (checkUser !== null){
+        if (checkUser){
             result.message = `User: ${email} already exists, please use another Email `;
             result.status = 400;
 
@@ -80,7 +80,7 @@ class AdminUserService{
         // check whether user exists in db
         const checkUser = await AdminUser.findOne({where:{adminEmail:email}});
 
-        if (checkUser === null){
+        if (!checkUser){
             result.message = `User: ${email} does Not exist, please use another Email`;
             result.status = 404;
             return result;
