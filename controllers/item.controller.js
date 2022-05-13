@@ -56,7 +56,7 @@ class ItemController{
             res.status(400);
 
             return res.json({
-                message: "Item information is invalid"
+                message: "Item information must include a sku string and a itemName string"
             })
         };
       

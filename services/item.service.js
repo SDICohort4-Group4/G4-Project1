@@ -190,7 +190,8 @@ class ItemService{
             hidden: hidden,
             expiryDate: expiryDate
         });
-                
+        
+        result.data = checkItem
         result.message = "Item Successfully added";
         result.status = 200;
 
