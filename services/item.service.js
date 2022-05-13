@@ -16,6 +16,101 @@ class ItemService{
     ]
 
 
+    async getBy(property, value){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        let getItem = null;
+
+        switch(property){
+            case "sku":
+                if(value == null) break;
+                getItem = await Item.findOne({
+                    where:{SKU: value},
+                    attributes: {exclude: this.excludeData}
+                })
+                break;
+            case "brand":
+                if(value == null) break;
+                getItem = await Item.findAll({
+                    where: {brand: value.toUpperCase()},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "category1":
+                if(value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory1: value.toUpperCase()},
+                    attributes: {exclude: this.excludeData}});
+                break;
+            case "category2":
+                if(value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory2: value.toUpperCase()},
+                    attributes: {exclude: this.excludeData}});
+                break;
+        }
+
+        if(getItem == null){
+            result.message = `${property}: ${value} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+
+    }
+
+    async adminGetBy(property, value){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        }
+
+        let getItem = null;
+
+        switch(property){
+            case "sku":
+                if(value == null) break;
+                getItem = await Item.findOne({where:{SKU: value}})
+                break;
+            case "brand":
+                if(value == null) break;
+                getItem = await Item.findAll({where: {brand: value.toUpperCase()}});
+                break;
+            case "category1":
+                if(value == null) break;
+                getItem = await Item.findAll({where: {itemCategory1: value.toUpperCase()}});
+                break;
+            case "category2":
+                if(value == null) break;
+                getItem = await Item.findAll({where: {itemCategory2: value.toUpperCase()}});
+                break;           
+        }
+
+        if(getItem == null){
+            result.message = `${property}: ${value} does not exist`
+            result.status = 404;
+
+            return result;
+        }
+
+        result.message = `Item data retrieved successfully`
+        result.data = getItem;
+        result.status = 200;
+
+        return result;
+    }
+
     // retrieve all item data from the db
     async getAll(){
         let result = {
@@ -24,7 +119,6 @@ class ItemService{
             data:null,
         };
         
-
         const getAllItems = await Item.findAll({
             attributes: {exclude: this.excludeData}
         });
@@ -49,205 +143,6 @@ class ItemService{
 
         result.message = "All Items retrieved";
         result.data = getAllItems;
-        result.status = 200;
-
-        return result;
-    }
-
-    // get specific item data from the db
-    async getBySku(sku){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findOne({
-            where:{SKU:sku.toLowerCase()},
-            attributes: {exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async adminGetBySku(sku){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async getByBrand(brand){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-      
-        const getItem = await Item.findAll({
-            where:{brand:brand.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async adminGetByBrand(brand){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-      
-        const getItem = await Item.findAll({where:{brand:brand.toUpperCase()}});
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async getByCat1(cat1){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({
-            where:{itemCategory1:cat1.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    
-    async adminGetByCat1(cat1){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({where:{itemCategory1:cat1.toUpperCase()}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async getByCat2(cat2){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({
-            where:{itemCategory2:cat2.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async adminGetByCat2(cat2){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({where:{itemCategory2:cat2.toUpperCase()}});
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
         result.status = 200;
 
         return result;
@@ -279,14 +174,25 @@ class ItemService{
 
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
-
+        
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
             result.status = 400;
 
             return result;
         }
-      
+        
+        // checks whether category1/category2/brands have values and convert to uppercase if yes
+        if (itemCategory1){
+            itemCategory1 = itemCategory1.toUpperCase();
+        }
+        if (itemCategory2){
+            itemCategory2 = itemCategory2.toUpperCase();
+        }
+        if (brand){
+            brand = brand.toUpperCase();
+        }
+        
         // create the item in the db
         await Item.create({ 
             SKU: sku,

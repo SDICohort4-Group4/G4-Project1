@@ -3,6 +3,34 @@ const itemService = new ItemService;
 
 class ItemController{
 
+    async getBy(req, res){
+        const property = req.params.property;
+        const value = req.params.value;
+
+        const result = await itemService.getBy(property, value);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
+    }
+    
+    async adminGetBy(req, res){
+        const property = req.params.property;
+        const value = req.params.value;
+
+        const result = await itemService.getBy(property, value);
+
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        })
+    }
+
     // get all items data
     async getAll(req,res){
         const result = await itemService.getAll();
@@ -24,113 +52,6 @@ class ItemController{
             data: result.data,
             message: result.message
         });
-    }
-
-    //get specific item by SKU
-    async getBySku(req,res){
-        const sku = req.params.sku
-
-        const result = await itemService.getBySku(sku);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async adminGetBySku(req,res){
-        const sku = req.params.sku
-
-        const result = await itemService.adminGetBySku(sku);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByBrand(req,res){
-        const brand = req.params.brand
-
-        const result = await itemService.getByBrand(brand);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    
-    async adminGetByBrand(req,res){
-        const brand = req.params.brand
-
-        const result = await itemService.adminGetByBrand(brand);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByCat1(req,res){
-        const cat1 = req.params.cat1
-
-        const result = await itemService.getByCat1(cat1);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    
-    async adminGetByCat1(req,res){
-        const cat1 = req.params.cat1
-
-        const result = await itemService.adminGetByCat1(cat1);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByCat2(req,res){
-        const cat2 = req.params.cat2
-
-        const result = await itemService.getByCat2(cat2);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async adminGetByCat2(req,res){
-        const cat2 = req.params.cat2
-
-        const result = await itemService.adminGetByCat2(cat2);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
     }
 
     // add a new item
