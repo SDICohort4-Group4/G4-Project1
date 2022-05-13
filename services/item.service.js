@@ -117,7 +117,7 @@ class ItemService{
         });
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Brand: ${brand} does not exist`
             result.status = 404;
 
             return result;
@@ -140,7 +140,7 @@ class ItemService{
         const getItem = await Item.findAll({where:{brand:brand.toUpperCase()}});
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Brand: ${brand} does not exist`
             result.status = 404;
 
             return result;
@@ -166,7 +166,7 @@ class ItemService{
         });
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Item category: ${cat1} does not exist`
             result.status = 404;
 
             return result;
@@ -191,7 +191,7 @@ class ItemService{
         });
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Item category: ${cat1} does not exist`
             result.status = 404;
 
             return result;
@@ -217,7 +217,7 @@ class ItemService{
         });
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Item category: ${cat2} does not exist`
             result.status = 404;
 
             return result;
@@ -240,7 +240,7 @@ class ItemService{
         const getItem = await Item.findAll({where:{itemCategory2:cat2.toUpperCase()}});
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `Item category: ${cat2} does not exist`
             result.status = 404;
 
             return result;
