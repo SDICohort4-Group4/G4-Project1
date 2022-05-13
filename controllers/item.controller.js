@@ -82,8 +82,8 @@ class ItemController{
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
     }
 
