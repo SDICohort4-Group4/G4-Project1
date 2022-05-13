@@ -155,8 +155,8 @@ class ItemService{
         const checkItem = await Item.findOne({where:{SKU:sku}});
         
         if (checkItem !== null){
-            result.data = await Item.findOne({where:{SKU:sku}})
             result.message = `Item SKU: ${sku} already exists`;
+            result.data = await Item.findOne({where:{SKU:sku}})
             result.status = 400;
 
             return result;
@@ -192,8 +192,8 @@ class ItemService{
             expiryDate: expiryDate
         });
         
-        result.data = await Item.findOne({where:{SKU:sku}})
         result.message = "Item Successfully added";
+        result.data = await Item.findOne({where:{SKU:sku}})
         result.status = 200;
 
         return result;
