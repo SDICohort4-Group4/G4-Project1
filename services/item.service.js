@@ -191,7 +191,7 @@ class ItemService{
             expiryDate: expiryDate
         });
         
-        result.data = checkItem
+        result.data = await Item.findOne({where:{SKU:sku}})
         result.message = "Item Successfully added";
         result.status = 200;
 
