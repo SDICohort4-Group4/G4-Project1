@@ -11,19 +11,13 @@ const itemController = new ItemController;
 //     return res.send("Item route is working!")
 // })
 
-router.get("/item", itemController.getAll);
-
-router.get("/item/:property/:value", itemController.getBy)
+router.get("/item/:property?/:value?", itemController.getBy)
 
 // can remove verifyJWT and verifyRoles middleware 
-router.post("/item/add",verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
+router.post("/item/add", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
 
 router.put("/item/update/:sku", itemController.updateItem);
 
-router.get("/admin/item", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetAll)
-
-router.get("/admin/item/:property/:value", itemController.adminGetBy)
-
-
+router.get("/admin/item/:property?/:value?", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetBy)
 
 module.exports = router;

@@ -25,41 +25,51 @@ class ItemService{
 
         let getItem = null;
 
+        //Retrive item data by sku/brand/category1/category2/:property?
         switch(property){
             case "sku":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findOne({
                     where:{SKU: value},
                     attributes: {exclude: this.excludeData}
                 })
                 break;
             case "brand":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findAll({
                     where: {brand: value.toUpperCase()},
                     attributes: {exclude: this.excludeData}
                 });
                 break;
             case "category1":
-                if(value == null) break;
+                if(property ==  null || value == null) break;
                 getItem = await Item.findAll({
                     where: {itemCategory1: value.toUpperCase()},
                     attributes: {exclude: this.excludeData}});
                 break;
             case "category2":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findAll({
                     where: {itemCategory2: value.toUpperCase()},
                     attributes: {exclude: this.excludeData}});
                 break;
         }
 
+        // Retrive all item data
+        if(property == null && value == null){
+            getItem = await Item.findAll({
+                attributes: {exclude: this.excludeData}                
+            // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
+            });
+        }
+
         if(getItem == null){
-            result.message = `${property}: ${value} does not exist`
+            result.message = `/${property}/${value} does not exist`
             result.status = 404;
 
             return result;
         }
+
 
         result.message = `Item data retrieved successfully`
         result.data = getItem;
@@ -78,27 +88,33 @@ class ItemService{
 
         let getItem = null;
 
+        //Retrive item data by sku/brand/category1/category2/:property?
         switch(property){
             case "sku":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findOne({where:{SKU: value}})
                 break;
             case "brand":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findAll({where: {brand: value.toUpperCase()}});
                 break;
             case "category1":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findAll({where: {itemCategory1: value.toUpperCase()}});
                 break;
             case "category2":
-                if(value == null) break;
+                if(property == null || value == null) break;
                 getItem = await Item.findAll({where: {itemCategory2: value.toUpperCase()}});
                 break;           
         }
 
+        // Retrieve all item data
+        if(property == null && value == null){
+            getItem = await Item.findAll();
+        }
+
         if(getItem == null){
-            result.message = `${property}: ${value} does not exist`
+            result.message = `/${property}/${value} does not exist`
             result.status = 404;
 
             return result;
@@ -106,43 +122,6 @@ class ItemService{
 
         result.message = `Item data retrieved successfully`
         result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    // retrieve all item data from the db
-    async getAll(){
-        let result = {
-            message:null,
-            status:null,
-            data:null,
-        };
-        
-        const getAllItems = await Item.findAll({
-            attributes: {exclude: this.excludeData}
-        });
-
-        // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
-
-        result.message = "All Items retrieved";
-        result.data = getAllItems;
-        result.status = 200;
-
-        return result;
-    };
-
-    async adminGetAll(){
-        let result = {
-            message:null,
-            status:null,
-            data:null,
-        };
-        
-        const getAllItems = await Item.findAll();
-
-        result.message = "All Items retrieved";
-        result.data = getAllItems;
         result.status = 200;
 
         return result;
@@ -182,14 +161,14 @@ class ItemService{
             return result;
         }
         
-        // checks whether category1/category2/brands have values and convert to uppercase if yes
-        if (itemCategory1){
+        // checks whether category1/category2/brands have values and are strings,then convert to uppercase if yes
+        if (itemCategory1 != null && typeof itemCategory1 == "string"){
             itemCategory1 = itemCategory1.toUpperCase();
         }
-        if (itemCategory2){
+        if (itemCategory2 != null && typeof itemCategory1 == "string"){
             itemCategory2 = itemCategory2.toUpperCase();
         }
-        if (brand){
+        if (brand != null && typeof itemCategory1 == "string"){
             brand = brand.toUpperCase();
         }
         

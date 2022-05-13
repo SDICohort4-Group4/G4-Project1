@@ -31,29 +31,6 @@ class ItemController{
         })
     }
 
-    // get all items data
-    async getAll(req,res){
-        const result = await itemService.getAll();
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        });
-    };
-
-    async adminGetAll(req,res){
-        const result = await itemService.adminGetAll();
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        });
-    }
-
     // add a new item
     async addItem(req,res){
         const {
