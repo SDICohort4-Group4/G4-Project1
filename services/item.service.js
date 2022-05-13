@@ -166,10 +166,10 @@ class ItemService{
         if (itemCategory1 != null && typeof itemCategory1 == "string"){
             itemCategory1 = itemCategory1.toUpperCase();
         }
-        if (itemCategory2 != null && typeof itemCategory1 == "string"){
+        if (itemCategory2 != null && typeof itemCategory2 == "string"){
             itemCategory2 = itemCategory2.toUpperCase();
         }
-        if (brand != null && typeof itemCategory1 == "string"){
+        if (brand != null && typeof brand == "string"){
             brand = brand.toUpperCase();
         }
         
