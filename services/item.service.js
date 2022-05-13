@@ -63,7 +63,7 @@ class ItemService{
         }
 
         const getItem = await Item.findOne({
-            where:{SKU:sku.toLowerCase()},
+            where:{SKU:sku},
             attributes: {exclude: this.excludeData}
         });
 
@@ -88,7 +88,7 @@ class ItemService{
             data: null,
         }
 
-        const getItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
+        const getItem = await Item.findOne({where:{SKU:sku}});
 
         if(getItem == null){
             result.message = `Item SKU: ${sku} does not exist`
