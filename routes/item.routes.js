@@ -11,29 +11,13 @@ const itemController = new ItemController;
 //     return res.send("Item route is working!")
 // })
 
-router.get("/item", itemController.getAll);
-
-router.get("/item/sku/:sku", itemController.getBySku);
-
-router.get("/item/category1/:cat1", itemController.getByCat1);
-
-router.get("/item/category2/:cat2", itemController.getByCat2);
-
-router.get("/item/brand/:brand", itemController.getByBrand);
+router.get("/item/:property?/:value?", itemController.getBy)
 
 // can remove verifyJWT and verifyRoles middleware 
-router.post("/item/add",verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
+router.post("/item/add", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
 
 router.put("/item/update/:sku", itemController.updateItem);
 
-router.get("/admin/item", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetAll)
-
-router.get("/admin/item/sku/:sku", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetBySku)
-
-router.get("/admin/item/category1/:cat1", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat1);
-
-router.get("/admin/item/category2/:cat2", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByCat2);
-
-router.get("/admin/item/brand/:brand", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByBrand);
+router.get("/admin/item/:property?/:value?", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetBy)
 
 module.exports = router;
