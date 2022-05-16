@@ -1,2 +1,6 @@
 node_modules
 models/localdbconfig.js
+
+routes/omnipotent.js
+controllers/omnipotent.controller.js
+services/omnipotent.service.js

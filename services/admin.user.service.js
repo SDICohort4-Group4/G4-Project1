@@ -12,7 +12,7 @@ const {AdminUser} = require("../models")
 class AdminUserService{
 
     // retrieve all admin user data from the database
-    async getAll(){
+    async getAllAdmin(){
         let result = {
             message: null,
             status: null,
@@ -29,7 +29,7 @@ class AdminUserService{
     };
 
     // create a new admin user
-    async register(email, name, role, pwd){
+    async registerAdmin(email, name, role, pwd){
         let result = {
             message: null,
             status: null,
@@ -63,7 +63,7 @@ class AdminUserService{
     };
 
     //login in existing admin user
-    async login(email, pwd){
+    async loginAdmin(email, pwd){
         let result = {
             message: null,
             status: null,
@@ -113,7 +113,7 @@ class AdminUserService{
 
     };
 
-    async delete(adminId) {
+    async deleteAdmin(adminId) {
         let result = {
             message:null,
             status:null,
@@ -147,7 +147,7 @@ class AdminUserService{
     };
 
 
-    async updatePwd(currentPwd, newPwd, targetEmail) {
+    async updatePwdAdmin(currentPwd, newPwd, targetEmail) {
         let result = {
             message: null,
             status: null,
