@@ -1,4 +1,6 @@
-const {Item} = require("../models")
+const Joi = require('joi');
+
+const {Item} = require("../models");
 
 class ItemService{
 
@@ -16,7 +18,7 @@ class ItemService{
     ]
 
 
-    async getBy(property, value){
+    async getByItem(property, value){
         let result = {
             message: null,
             status: null,
@@ -79,7 +81,7 @@ class ItemService{
 
     }
 
-    async adminGetBy(property, value){
+    async adminGetByItem(property, value){
         let result = {
             message: null,
             status: null,
@@ -244,7 +246,23 @@ class ItemService{
 
         //     return (result != null)
         // }
+
+        // const validUrlRegex = /^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ;
+
+        // const validDateRegex = /^\d{4}([.\/-])]([0-9]{1})?[0-2]{1}([.\/-])([0-3]{1})?[0-9]{1}$/
+
+        function validateDate(val) {
+
+            // YYYY/MM/DD or MM/DD/YYYY(primary)
+            try {
+                new Date(val).toISOString();
+                return true;
+            } catch (e) {
+                return false; 
+            }
         
+        }
+
         if(itemName != null){
             if(typeof itemName != "string"){
                 isNotChanged.push(`itemName was not updated`)
@@ -372,11 +390,11 @@ class ItemService{
         }
         
         if(expiryDate != null){
-            if(typeof expiryDate == "string"){
+            if(typeof expiryDate == "string" && validateDate(expiryDate)){
                 checkItem.expiryDate = expiryDate;
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
-                isNotChanged.push(`expiryDate field was not updated`)
+                isNotChanged.push(`expiryDate field was not updated. YYYY-MM-DD or MM-DD-YYYY format. [ . / - ] separators are equivalent`)
             }
         }
         
@@ -387,13 +405,12 @@ class ItemService{
         } else {
             result.message = "Nothing was changed";
         }
-
+        Date.parse
         result.status = 200;
         result.data = await Item.findOne({where:{SKU:sku}})
 
         return result;
     };
-
 
 }
 

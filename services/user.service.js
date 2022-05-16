@@ -11,7 +11,7 @@ const {User} = require("../models")
 class UserService{
 
     // retrieve all user data from the database
-    async getAll(){
+    async getAllUser(){
         let result = {
             message:null,
             status:null,
@@ -28,7 +28,7 @@ class UserService{
     };
 
     // create a new user
-    async register(email, name, nickname, pwd){
+    async registerUser(email, name, nickname, pwd){
         let result={
             message:null,
             status:null,
@@ -63,7 +63,7 @@ class UserService{
     };
 
     //login in existing user
-    async login(email, pwd){
+    async loginUser(email, pwd){
         let result = {
             message: null,
             status: null,

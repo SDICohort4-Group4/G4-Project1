@@ -4,19 +4,19 @@ const userService = new UserService;
 class UserController{
 
     // get all user data
-    async getAll(req,res){
-        const result = await userService.getAll();
+    async getAllUser(req,res){
+        const result = await userService.getAllUser();
 
         res.status(result.status);
 
         return res.json({
-            data:result.data,
-            message:result.message
+            message: result.message,
+            data: result.data
         });
     };
 
     // create a new user
-    async register(req,res){
+    async registerUser(req,res){
         const {email, name, nickname, pwd} = req.body
 
         // check that data is valid format or is not an empty string
@@ -29,22 +29,22 @@ class UserController{
         }
 
         // send data to ORM service layer
-        const result = await userService.register(email, name, nickname, pwd);
+        const result = await userService.registerUser(email, name, nickname, pwd);
 
         res.status(result.status);
 
         return res.json({
-            data:result.data, 
-            message:result.message
+            message: result.message,
+            data: result.data
         });
     };
 
     // login an existing user
-    async login(req,res){
+    async loginUser(req,res){
         const {email, pwd} = req.body;
 
         // check that data is valid format or is not an empty string
-        if (typeof email !="string" || typeof pwd !="string" || email === "" || pwd === ""){
+        if (typeof email != "string" || typeof pwd != "string" || email === "" || pwd === ""){
             res.status(400);
 
             return res.json({
@@ -53,13 +53,13 @@ class UserController{
         }
 
         // send data to ORM service layer
-        const result = await userService.login(email, pwd);
+        const result = await userService.loginUser(email, pwd);
 
         res.status(result.status);
         
         return res.json({
-            data:result.data, 
-            message:result.message
+            message: result.message,
+            data: result.data
         });
     }
 

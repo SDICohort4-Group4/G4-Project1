@@ -3,31 +3,31 @@ const itemService = new ItemService;
 
 class ItemController{
 
-    async getBy(req, res){
+    async getByItem(req, res){
         const property = req.params.property;
         const value = req.params.value;
 
-        const result = await itemService.getBy(property, value);
+        const result = await itemService.getByItem(property, value);
 
         res.status(result.status);
 
         return res.json({
-            data: result.data,
-            message: result.message
+            message: result.message,
+            data: result.data
         })
     }
     
-    async adminGetBy(req, res){
+    async adminGetByItem(req, res){
         const property = req.params.property;
         const value = req.params.value;
 
-        const result = await itemService.adminGetBy(property, value);
+        const result = await itemService.adminGetByItem(property, value);
 
         res.status(result.status);
 
         return res.json({
-            data: result.data,
-            message: result.message
+            message: result.message,
+            data: result.data
         })
     }
 
@@ -82,8 +82,8 @@ class ItemController{
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
     }
 
@@ -139,8 +139,8 @@ class ItemController{
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
         
     }
