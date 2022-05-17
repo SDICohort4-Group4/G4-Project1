@@ -4,10 +4,9 @@ const itemService = new ItemService;
 class ItemController{
 
     async getByItem(req, res){
-        const property = req.params.property;
-        const value = req.params.value;
+        const {property, value, value2, value3}= req.params;
 
-        const result = await itemService.getByItem(property, value);
+        const result = await itemService.getByItem(property, value, value2, value3);
 
         res.status(result.status);
 
@@ -18,10 +17,9 @@ class ItemController{
     }
     
     async adminGetByItem(req, res){
-        const property = req.params.property;
-        const value = req.params.value;
+        const {property, value, value2, value3}= req.params;
 
-        const result = await itemService.adminGetByItem(property, value);
+        const result = await itemService.adminGetByItem(property, value, value2, value3);
 
         res.status(result.status);
 
