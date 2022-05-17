@@ -39,7 +39,7 @@ class ItemService{
 
         let getItem = null;
 
-        //Retrive item data by sku/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt:property?
+        //Retrive item data by sku/skustrict/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt:property?
         switch(property){
             case "sku":
                 if(property == null || value == null) break;
@@ -157,7 +157,7 @@ class ItemService{
 
         let getItem = null;
 
-        //Retrive item data by sku/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt/hidden/deleted/:property?
+        //Retrive item data by sku/sku/strict/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt/hidden/deleted/:property?
         switch(property){
             case "sku":
                 if(property == null || value == null) break;
