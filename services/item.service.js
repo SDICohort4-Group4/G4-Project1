@@ -245,10 +245,7 @@ class ItemService{
 
         // Retrive all item data
         if(property == null && value == null && value2 == null && value3 == null){
-            getItem = await Item.findAll({
-                attributes: {exclude: this.excludeData}                
-            // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
-            });
+            getItem = await Item.findAll();
         };
 
         if(getItem == null){
