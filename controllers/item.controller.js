@@ -150,7 +150,8 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -178,7 +179,8 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);
@@ -207,7 +209,8 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -235,7 +238,8 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);

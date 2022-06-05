@@ -4,8 +4,6 @@ class ItemService{
 
     excludeData = [                
         "itemID", 
-        "itemPrice", 
-        "itemDiscount", 
         "hidden", 
         "deleted", 
         "expiryDate", 
@@ -269,7 +267,8 @@ class ItemService{
         UOM,
         Qty,
         hidden,
-        expiryDate
+        expiryDate,
+        onSale
     ){
         let result = {
             message:null,
@@ -314,7 +313,8 @@ class ItemService{
             UOM: UOM,
             Qty: Qty,
             hidden: hidden,
-            expiryDate: expiryDate
+            expiryDate: expiryDate,
+            onSale: onSale
         });
                 
         result.message = "Item Successfully added";
@@ -339,7 +339,8 @@ class ItemService{
         Qty,
         hidden,
         deleted,
-        expiryDate
+        expiryDate,
+        onSale
     ){
         let result = {
             message: null,
@@ -503,6 +504,15 @@ class ItemService{
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
                 isNotChanged.push(`expiryDate field was not updated`)
+            }
+        }
+
+        if(onSale != null){
+            if(typeof onSale == "string"){
+                checkItem.onSale = onSale;
+                isNotChanged.push(`onSale was updated successfully to ${checkItem.onSale}`)
+            } else {
+                isNotChanged.push(`onSale field was not updated`)
             }
         }
         
