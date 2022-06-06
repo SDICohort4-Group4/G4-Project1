@@ -4,19 +4,19 @@ const adminUserService = new AdminUserService;
 class AdminUserController{
 
     // get all admin user data
-    async getAll(req,res){
-        const result = await adminUserService.getAll();
+    async getAllAdmin(req,res){
+        const result = await adminUserService.getAllAdmin();
 
         res.status(result.status);
 
         return res.json({
-            data: result.data,
-            message: result.message
+            message: result.message,
+            data: result.data
         });
     };
 
     // create a new admin user
-    async register(req,res){
+    async registerAdmin(req,res){
         const {email, name, role, pwd} = req.body;
         // check that data is valid format or is not an empty string
         // check that role is correctly set to either "admin" or "superAdmin"
@@ -56,7 +56,7 @@ class AdminUserController{
         }
 
         // send data to ORM service layer
-        const result = await adminUserService.register(email, name, role, pwd);
+        const result = await adminUserService.registerAdmin(email, name, role, pwd);
 
         res.status(result.status);
 
@@ -66,7 +66,7 @@ class AdminUserController{
     };
 
     // login an existing admin user
-    async login(req,res){
+    async loginAdmin(req,res){
         const {email, pwd} = req.body;
         
         // check that data is valid format or is not an empty string
@@ -79,17 +79,17 @@ class AdminUserController{
         }
 
         // send data to ORM service layer
-        const result= await adminUserService.login(email, pwd);
+        const result= await adminUserService.loginAdmin(email, pwd);
 
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
     }
 
-    async delete(req,res) {
+    async deleteAdmin(req,res) {
         const targetAdminId = parseInt(req.params.adminId);
 
         if (typeof targetAdminId !== "number") {
@@ -101,7 +101,7 @@ class AdminUserController{
         }
 
         //consume service layer
-        const result = await adminUserService.delete(targetAdminId);
+        const result = await adminUserService.deleteAdmin(targetAdminId);
 
         // return service data
         res.status(result.status);
@@ -111,7 +111,7 @@ class AdminUserController{
         });
     }
 
-    async updatePwd(req, res) {
+    async updatePwdAdmin(req, res) {
         // retrieve data from request body
         const {currentPwd, newPwd, userEmail} = req.body;
         const loginUser = req.user;
@@ -130,14 +130,14 @@ class AdminUserController{
         // if no userEmail input or input same as loginEmail (meaning changing of own password)
         if (!userEmail || userEmail == loginUser) {
             //send in current pwd ,new pwd and the email from jwt token into service layer
-            const result = await adminUserService.updatePwd(currentPwd, newPwd, loginUser);
+            const result = await adminUserService.updatePwdAdmin(currentPwd, newPwd, loginUser);
             //return service data
             res.status(result.status);
             return res.json({message: result.message});
         }
 
         //send in current pwd ,new pwd and userEmail from input into service layer
-        const result = await adminUserService.updatePwd(currentPwd, newPwd, userEmail);
+        const result = await adminUserService.updatePwdAdmin(currentPwd, newPwd, userEmail);
         //return service data
         res.status(result.status);
         return res.json({message: result.message});
