@@ -286,7 +286,7 @@ class ItemService{
             return result;
         }
         
-        // checks whether category1/category2/brands have values and convert to uppercase if yes
+        // checks whether category1/category2/brands/onSale have values and convert to uppercase if yes
         if (itemCategory1) {
             itemCategory1=itemCategory1.toUpperCase();
         }
@@ -295,6 +295,9 @@ class ItemService{
         }
         if (brand){
             brand=brand.toUpperCase();
+        }
+        if(onSale){
+            onSale=onSale.toUpperCase();
         }
         
         // create the item in the db
