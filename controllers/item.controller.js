@@ -46,7 +46,8 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -54,7 +55,7 @@ class ItemController{
             res.status(400);
 
             return res.json({
-                message: "Item information is invalid"
+                message: "Item information must include a sku string and a itemName string"
             })
         };
       
@@ -74,7 +75,8 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);
@@ -103,7 +105,8 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -131,7 +134,8 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);

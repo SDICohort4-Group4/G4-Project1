@@ -7,8 +7,6 @@ class ItemService{
 
     excludeData = [                
         "itemID", 
-        "itemPrice", 
-        "itemDiscount", 
         "hidden", 
         "deleted", 
         "expiryDate", 
@@ -245,10 +243,7 @@ class ItemService{
 
         // Retrive all item data
         if(property == null && value == null && value2 == null && value3 == null){
-            getItem = await Item.findAll({
-                attributes: {exclude: this.excludeData}                
-            // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
-            });
+            getItem = await Item.findAll();
         };
 
         if(getItem == null){
@@ -331,6 +326,82 @@ class ItemService{
         return result;
     };
 
+
+    // create a new item record in the db
+    async addItem(
+        sku, 
+        itemName,
+        itemDescription,
+        itemPrice,
+        itemSalePrice,
+        itemDiscount,
+        itemCategory1,
+        itemCategory2,
+        brand,
+        itemPic1,
+        itemPic2,
+        UOM,
+        Qty,
+        hidden,
+        expiryDate,
+        onSale
+    ){
+        let result = {
+            message:null,
+            status:null,
+            data:null,
+        };
+
+        // check whether item sku already exists
+        const checkItem = await Item.findOne({where:{SKU:sku}});
+        
+        if (checkItem !== null){
+            result.message = `Item SKU: ${sku} already exists`;
+            result.status = 400;
+
+            return result;
+        }
+        
+        // checks whether category1/category2/brands/onSale have values and convert to uppercase if yes
+        if (itemCategory1) {
+            itemCategory1=itemCategory1.toUpperCase();
+        }
+        if (itemCategory2){
+            itemCategory2=itemCategory2.toUpperCase();
+        }
+        if (brand){
+            brand=brand.toUpperCase();
+        }
+        if(onSale){
+            onSale=onSale.toUpperCase();
+        }
+        
+        // create the item in the db
+        await Item.create({ 
+            SKU: sku,
+            itemName: itemName,
+            itemDescription: itemDescription,
+            itemPrice: itemPrice,
+            itemSalePrice: itemSalePrice,
+            itemDiscount: itemDiscount,
+            itemCategory1: itemCategory1,
+            itemCategory2: itemCategory2,
+            brand: brand,
+            itemPic1: itemPic1,
+            itemPic2: itemPic2,
+            UOM: UOM,
+            Qty: Qty,
+            hidden: hidden,
+            expiryDate: expiryDate,
+            onSale: onSale
+        });
+                
+        result.message = "Item Successfully added";
+        result.status = 200;
+
+        return result;
+    };
+
     async updateItem(
         sku, 
         itemName,
@@ -347,7 +418,8 @@ class ItemService{
         Qty,
         hidden,
         deleted,
-        expiryDate
+        expiryDate,
+        onSale
     ){
         let result = {
             message: null,
@@ -505,6 +577,15 @@ class ItemService{
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
                 isNotChanged.push(`expiryDate field was not updated. YYYY-MM-DD or MM-DD-YYYY format. [ . / - ] separators are equivalent`)
+            }
+        }
+
+        if(onSale != null){
+            if(typeof onSale == "string"){
+                checkItem.onSale = onSale;
+                isNotChanged.push(`onSale was updated successfully to ${checkItem.onSale}`)
+            } else {
+                isNotChanged.push(`onSale field was not updated`)
             }
         }
         
