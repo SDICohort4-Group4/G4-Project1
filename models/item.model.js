@@ -88,6 +88,11 @@ module.exports = function(sequelize){
                 type: DataTypes.DATE,
                 allowNull: true,
             },
+            onSale:{
+                type:DataTypes.STRING,
+                allowNull:false,
+                defaultValue:"NONE"
+            },
             createdByAdminID: {
                 type: DataTypes.INTEGER,
                 allowNull: true,

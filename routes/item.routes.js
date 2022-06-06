@@ -16,7 +16,7 @@ router.get("/item/:property?/:value?/:value2?/:value3?", itemController.getByIte
 // can remove verifyJWT and verifyRoles middleware 
 router.post("/item/add", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.addItem);
 
-router.put("/item/update/:sku", itemController.updateItem);
+router.put("/item/update/:sku", verifyJWT, verifyRoles('admin', 'superAdmin'),itemController.updateItem);
 
 router.get("/admin/item/:property?/:value?/:value2?/:value3?", verifyJWT, verifyRoles('admin', 'superAdmin'), itemController.adminGetByItem)
 
