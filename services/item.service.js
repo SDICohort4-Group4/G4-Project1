@@ -531,7 +531,7 @@ class ItemService{
         } else {
             result.message = "Nothing was changed";
         }
-        Date.parse
+
         result.status = 200;
         result.data = await Item.findOne({where:{SKU:sku}})
 
