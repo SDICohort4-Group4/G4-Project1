@@ -3,133 +3,29 @@ const itemService = new ItemService;
 
 class ItemController{
 
-    // get all items data
-    async getAll(req,res){
-        const result = await itemService.getAll();
+    async getByItem(req, res){
+        const {property, value, value2, value3}= req.params;
+
+        const result = await itemService.getByItem(property, value, value2, value3);
 
         res.status(result.status);
 
         return res.json({
-            data: result.data,
-            message: result.message
-        });
-    };
-
-    async adminGetAll(req,res){
-        const result = await itemService.adminGetAll();
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        });
-    }
-
-    //get specific item by SKU
-    async getBySku(req,res){
-        const sku = req.params.sku
-
-        const result = await itemService.getBySku(sku);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
+            message: result.message,
+            data: result.data
         })
     }
-
-    async adminGetBySku(req,res){
-        const sku = req.params.sku
-
-        const result = await itemService.adminGetBySku(sku);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByBrand(req,res){
-        const brand = req.params.brand
-
-        const result = await itemService.getByBrand(brand);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
     
-    async adminGetByBrand(req,res){
-        const brand = req.params.brand
+    async adminGetByItem(req, res){
+        const {property, value, value2, value3}= req.params;
 
-        const result = await itemService.adminGetByBrand(brand);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByCat1(req,res){
-        const cat1 = req.params.cat1
-
-        const result = await itemService.getByCat1(cat1);
+        const result = await itemService.adminGetByItem(property, value, value2, value3);
 
         res.status(result.status);
 
         return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    
-    async adminGetByCat1(req,res){
-        const cat1 = req.params.cat1
-
-        const result = await itemService.adminGetByCat1(cat1);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async getByCat2(req,res){
-        const cat2 = req.params.cat2
-
-        const result = await itemService.getByCat2(cat2);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
-        })
-    }
-
-    async adminGetByCat2(req,res){
-        const cat2 = req.params.cat2
-
-        const result = await itemService.adminGetByCat2(cat2);
-
-        res.status(result.status);
-
-        return res.json({
-            data: result.data,
-            message: result.message
+            message: result.message,
+            data: result.data
         })
     }
 
@@ -150,7 +46,8 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -158,7 +55,7 @@ class ItemController{
             res.status(400);
 
             return res.json({
-                message: "Item information is invalid"
+                message: "Item information must include a sku string and a itemName string"
             })
         };
       
@@ -178,14 +75,15 @@ class ItemController{
             UOM,
             Qty,
             hidden,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
     }
 
@@ -207,7 +105,8 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         } = req.body;
 
         // check that data is valid format or is not an empty string
@@ -235,14 +134,15 @@ class ItemController{
             Qty,
             hidden,
             deleted,
-            expiryDate
+            expiryDate,
+            onSale
         );
 
         res.status(result.status);
 
         return res.json({
-            data: result.data, 
-            message: result.message
+            message: result.message,
+            data: result.data
         });
         
     }

@@ -14,11 +14,11 @@ router.get("/",(req,res)=>{
     return res.send("Group 4 Project 2 root page.")
 })
 
-router.get("/user", userController.getAll)
+router.get("/user", userController.getAllUser)
 
-router.post("/user/register", userController.register);
+router.post("/user/register", userController.registerUser);
 
-router.post("/user/login", userController.login);
+router.post("/user/login", userController.loginUser);
 
 
 module.exports = router;

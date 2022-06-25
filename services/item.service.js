@@ -1,11 +1,12 @@
-const {Item} = require("../models")
+const Joi = require('joi');
+const {Sequelize, Op} = require('sequelize')
+
+const {Item} = require("../models");
 
 class ItemService{
 
     excludeData = [                
         "itemID", 
-        "itemPrice", 
-        "itemDiscount", 
         "hidden", 
         "deleted", 
         "expiryDate", 
@@ -13,244 +14,252 @@ class ItemService{
         "updatedByAdminID", 
         "createdAt", 
         "updatedAt"
-    ]
+    ];
 
+    validateDate(val) {
 
-    // retrieve all item data from the db
-    async getAll(){
-        let result = {
-            message:null,
-            status:null,
-            data:null,
+        // YYYY/MM/DD or MM/DD/YYYY(primary)
+        try {
+            new Date(val).toISOString();
+            return true;
+        } catch (e) {
+            return false; 
         };
-        
-
-        const getAllItems = await Item.findAll({
-            attributes: {exclude: this.excludeData}
-        });
-
-        // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
-
-        result.message = "All Items retrieved";
-        result.data = getAllItems;
-        result.status = 200;
-
-        return result;
+    
     };
 
-    async adminGetAll(){
+    async getByItem(property, value, value2, value3){
         let result = {
-            message:null,
-            status:null,
-            data:null,
+            message: null,
+            status: null,
+            data: null,
         };
-        
-        const getAllItems = await Item.findAll();
 
-        result.message = "All Items retrieved";
-        result.data = getAllItems;
-        result.status = 200;
+        let getItem = null;
 
-        return result;
-    }
-
-    // get specific item data from the db
-    async getBySku(sku){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
+        //Retrive item data by sku/skustrict/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt:property?
+        switch(property){
+            case "sku":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where:{SKU: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "skustrict":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where:{SKU: `${value}`, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "brand":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {brand: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "category1":
+                if(property ==  null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory1: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "category2":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory2: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "name":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemName: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "description":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemDescription: {[Op.iLike]:`%${value}%`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData}
+                });
+                break;
+            case "salepricelt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemSalePrice: {[Op.lte]:`${value}`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData},
+                    order: [['itemSalePrice','DESC']]
+                });
+                break;
+            case "salepricegt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemSalePrice: {[Op.gte]:`${value}`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData},
+                    order: [['itemSalePrice','ASC']]
+                });
+                break;
+            case "qtylt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {Qty: {[Op.lte]:`${value}`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData},
+                    order: [['Qty','DESC']]
+                });
+                break;
+            case "qtygt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {Qty: {[Op.gte]:`${value}`}, hidden: false, deleted: false},
+                    attributes: {exclude: this.excludeData},
+                    order: [['Qty','ASC']]
+                });
+                break;
         }
 
-        const getItem = await Item.findOne({
-            where:{SKU:sku.toLowerCase()},
-            attributes: {exclude: this.excludeData}
-        });
+        // Retrive all item data
+        if(property == null && value == null && value2 == null && value3 == null){
+            getItem = await Item.findAll({
+                attributes: {exclude: this.excludeData}                
+            // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
+            });
+        };
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `/${property}/${value} does not exist`;
             result.status = 404;
 
             return result;
-        }
+        };
 
-        result.message = `Item data retrieved successfully`
+
+        result.message = `Item data retrieved successfully`;
         result.data = getItem;
         result.status = 200;
 
         return result;
+
     }
 
-    async adminGetBySku(sku){
+    async adminGetByItem(property, value, value2, value3){
         let result = {
             message: null,
             status: null,
             data: null,
+        };
+
+        let getItem = null;
+
+        //Retrive item data by sku/skustrict/name/description/category1/category2/brand/salepricelt/salepricegt/qtylt/qtygt/hidden/deleted/:property?
+        switch(property){
+            case "sku":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where:{SKU: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "skustrict":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where:{SKU: `${value}`}
+                });
+                break;
+            case "brand":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {brand: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "category1":
+                if(property ==  null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory1: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "category2":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemCategory2: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "name":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemName: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "description":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemDescription: {[Op.iLike]:`%${value}%`}}
+                });
+                break;
+            case "salepricelt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemSalePrice: {[Op.lte]:`${value}`}},
+                    order: [['itemSalePrice','DESC']]
+                });
+                break;
+            case "salepricegt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {itemSalePrice: {[Op.gte]:`${value}`}},
+                    order: [['itemSalePrice','ASC']]
+                });
+                break;
+            case "qtylt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {Qty: {[Op.lte]:`${value}`}},
+                    order: [['Qty','DESC']]
+                });
+                break;
+            case "qtygt":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {Qty: {[Op.gte]:`${value}`}},
+                    order: [['Qty','ASC']]
+                });
+                break;
+            case "hidden":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {hidden:`${value}`}
+                });
+                break;
+            case "deleted":
+                if(property == null || value == null) break;
+                getItem = await Item.findAll({
+                    where: {deleted:`${value}`}
+                });
+                break;
         }
 
-        const getItem = await Item.findOne({where:{SKU:sku.toLowerCase()}});
+        // Retrive all item data
+        if(property == null && value == null && value2 == null && value3 == null){
+            getItem = await Item.findAll();
+        };
 
         if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
+            result.message = `/${property}/${value} does not exist`;
             result.status = 404;
 
             return result;
-        }
+        };
 
-        result.message = `Item data retrieved successfully`
+
+        result.message = `Item data retrieved successfully`;
         result.data = getItem;
         result.status = 200;
 
         return result;
-    }
 
-    async getByBrand(brand){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-      
-        const getItem = await Item.findAll({
-            where:{brand:brand.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async adminGetByBrand(brand){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-      
-        const getItem = await Item.findAll({where:{brand:brand.toUpperCase()}});
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async getByCat1(cat1){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({
-            where:{itemCategory1:cat1.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    
-    async adminGetByCat1(cat1){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({where:{itemCategory1:cat1.toUpperCase()}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async getByCat2(cat2){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({
-            where:{itemCategory2:cat2.toUpperCase()},
-            attributes: { exclude: this.excludeData}
-        });
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
-    }
-
-    async adminGetByCat2(cat2){
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const getItem = await Item.findAll({where:{itemCategory2:cat2.toUpperCase()}});
-
-        if(getItem == null){
-            result.message = `Item SKU: ${sku} does not exist`
-            result.status = 404;
-
-            return result;
-        }
-
-        result.message = `Item data retrieved successfully`
-        result.data = getItem;
-        result.status = 200;
-
-        return result;
     }
 
     // create a new item record in the db
@@ -269,7 +278,8 @@ class ItemService{
         UOM,
         Qty,
         hidden,
-        expiryDate
+        expiryDate,
+        onSale
     ){
         let result = {
             message:null,
@@ -279,14 +289,28 @@ class ItemService{
 
         // check whether item sku already exists
         const checkItem = await Item.findOne({where:{SKU:sku}});
-
+        
         if (checkItem !== null){
             result.message = `Item SKU: ${sku} already exists`;
             result.status = 400;
 
             return result;
         }
-      
+        
+        // checks whether category1/category2/brands/onSale have values and convert to uppercase if yes
+        if (itemCategory1 != null && typeof itemCategory1 == "string"){
+            itemCategory1 = itemCategory1.toUpperCase();
+        }
+        if (itemCategory2 != null && typeof itemCategory1 == "string"){
+            itemCategory2 = itemCategory2.toUpperCase();
+        }
+        if (brand != null && typeof itemCategory1 == "string"){
+            brand = brand.toUpperCase();
+        }
+        if(onSale){
+            onSale = onSale.toUpperCase();
+        }
+        
         // create the item in the db
         await Item.create({ 
             SKU: sku,
@@ -303,7 +327,8 @@ class ItemService{
             UOM: UOM,
             Qty: Qty,
             hidden: hidden,
-            expiryDate: expiryDate
+            expiryDate: expiryDate,
+            onSale: onSale
         });
                 
         result.message = "Item Successfully added";
@@ -328,7 +353,8 @@ class ItemService{
         Qty,
         hidden,
         deleted,
-        expiryDate
+        expiryDate,
+        onSale
     ){
         let result = {
             message: null,
@@ -348,18 +374,12 @@ class ItemService{
             return result;
         }
 
-        function isValidURL(string) {
-            var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        // function isValidURL(string) {
+        //     var result = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
-            return (result !== null)
-        }
+        //     return (result !== null)
+        // }
 
-        function isValidDate(string){
-            var result = string.match(/^\d{4}([./-])\d{2}\1\d{2}$/)
-
-            return (result != null)
-        }
-        
         if(itemName != null){
             if(typeof itemName != "string"){
                 isNotChanged.push(`itemName was not updated`)
@@ -433,7 +453,7 @@ class ItemService{
         }
 
         if(itemPic1 != null){
-            if(isValidURL(itemPic1)){
+            if(typeof itemPic1 == "string"){
                 checkItem.itemPic1 = itemPic1;
                 isNotChanged.push(`itemPic1 was updated successfully to ${checkItem.itemPic1}`)
             } else {
@@ -442,7 +462,7 @@ class ItemService{
         }
 
         if(itemPic2 != null){
-            if(isValidURL(itemPic2)){
+            if(typeof itemPic2 == "string"){
                 checkItem.itemPic2 = itemPic2;
                 isNotChanged.push(`itemPic2 was updated successfully to ${checkItem.itemPic2}`)
             } else {
@@ -487,11 +507,20 @@ class ItemService{
         }
         
         if(expiryDate != null){
-            if(typeof expiryDate == "string" && isValidDate(expiryDate)){
+            if(typeof expiryDate == "string" && this.validateDate(expiryDate)){
                 checkItem.expiryDate = expiryDate;
                 isNotChanged.push(`expiryDate was updated successfully to ${checkItem.expiryDate}`)
             } else {
-                isNotChanged.push(`expiryDate field was not updated`)
+                isNotChanged.push(`expiryDate field was not updated. YYYY-MM-DD or MM-DD-YYYY format. [ . / - ] separators are equivalent`)
+            }
+        }
+
+        if(onSale != null){
+            if(typeof onSale == "string"){
+                checkItem.onSale = onSale;
+                isNotChanged.push(`onSale was updated successfully to ${checkItem.onSale}`)
+            } else {
+                isNotChanged.push(`onSale field was not updated`)
             }
         }
         
@@ -508,7 +537,6 @@ class ItemService{
 
         return result;
     };
-
 
 }
 
