@@ -1,12 +1,14 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
+const authConfig = require('../config/auth.config');
 
 // load key for hashing from common file
 const fs = require("fs");
 const privateKey = fs.readFileSync("./jwttest.key");
 
-const {AdminUser} = require("../models")
+const {AdminUser, RefreshToken} = require("../models")
+
 
 
 class AdminUserService{
@@ -67,21 +69,23 @@ class AdminUserService{
         let result = {
             message: null,
             status: null,
-            data: null,
+            accessToken: null,
+            refreshToken: null,
         };
 
         //for use in jwttoken as it requires a standard JSON object
         let userInfo = {
             id: null,
             email: null,
-            role: null
+            role: null,
         }
 
         // check whether user exists in db
         const checkUser = await AdminUser.findOne({where:{adminEmail:email}});
 
+
         if (!checkUser){
-            result.message = `User: ${email} does Not exist, please use another Email`;
+            result.message = `Email: ${email} does not exist, please use another Email`;
             result.status = 404;
             return result;
         }
@@ -102,12 +106,15 @@ class AdminUserService{
         userInfo.role = checkUser.adminRole;
 
 
-        //create json web token and return data
-        const token = jwt.sign(userInfo, privateKey, {expiresIn: "1h"});
+        //create json web token and return accessToken
+        const token = jwt.sign(userInfo, authConfig.secret, {expiresIn: authConfig.jwtExpiration});
         
-        result.data = token;
+        let refreshToken = await RefreshToken.createToken(checkUser);
+
+        result.accessToken = token;
         result.message ="Login Success";
         result.status = 200;
+        result.refreshToken = refreshToken;
 
         return result;
 

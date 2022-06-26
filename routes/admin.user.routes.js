@@ -21,4 +21,4 @@ router.put("/admin/update-password", verifyJWT, verifyRoles('admin', 'superAdmin
 
 router.delete("/admin/:adminId", verifyJWT, verifyRoles('superAdmin'), adminUserController.deleteAdmin);
 
-module.exports = router;
+module.exports = router; 

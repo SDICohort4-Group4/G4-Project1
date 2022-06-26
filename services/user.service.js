@@ -1,12 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-
-// load key for hashing from common file
-const fs = require("fs");
-const privateKey = fs.readFileSync("./jwttest.key");
-
-const {User} = require("../models")
+const {User, RefreshToken} = require("../models");
+const authConfig = require("../config/auth.config");
 
 class UserService{
 
@@ -67,7 +63,8 @@ class UserService{
         let result = {
             message: null,
             status: null,
-            data: null,
+            accessToken: null,
+            refreshToken: null,
         };
 
         //for use in jwttoken as it requires a standard JSON object
@@ -80,10 +77,9 @@ class UserService{
         // check whether user exists in db
         const checkUser = await User.findOne({where:{userEmail:email}});
 
-        if (checkUser === null){
+        if (!checkUser){
             result.message = `User: ${email} does Not exist, please use another Email`;
-            result.status = 400;
-
+            result.status = 404;
             return result;
         }
 
@@ -100,14 +96,16 @@ class UserService{
         // assign user data to standard JSON object for json web token creation
         userInfo.id = checkUser.userID;
         userInfo.email = checkUser.userEmail;
-        userInfo.pwd = checkUser.userPwd;
 
         //create json web token and return data
-        const token = jwt.sign(userInfo, privateKey, {expiresIn: "1h"});
+        const token = jwt.sign(userInfo, authConfig.secret, {expiresIn: authConfig.jwtExpiration});
         
-        result.data = token;
-        result.message = "Login Success";
+        let refreshToken = await RefreshToken.createToken(checkUser);
+
+        result.accessToken = token;
+        result.message ="Login Success";
         result.status = 200;
+        result.refreshToken = refreshToken;
 
         return result;
     };

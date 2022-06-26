@@ -22,18 +22,30 @@ module.exports = function(sequelize){
         }
     );
     
+
     RefreshToken.createToken = async function(user) {
+        let refreshToken;
         let expireAt = new Date();
         // create the expireAt to current time and add expiration time to it
         expireAt.setSeconds(expireAt.getSeconds() + config.jwtRefreshExpiration);
         let _token = uuidv4();
 
-        let refreshToken = await RefreshToken.create({
-            token: _token,
-            userId: user.id,
-            expiryDate: expireAt.getTime(),
-        });
-
+        if(user?.adminID) {
+            refreshToken = await RefreshToken.create({
+                token: _token,
+                adminId: user.adminID,
+                userId: null,
+                expiryDate: expireAt.getTime(),
+            });
+        } else if (user?.userID) {
+            refreshToken = await RefreshToken.create({
+                token: _token,
+                adminId: null,
+                userId: user.userID,
+                expiryDate: expireAt.getTime(),
+            });
+        }
+        
         return refreshToken;
     };
 

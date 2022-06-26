@@ -58,20 +58,20 @@ User.hasOne(RefreshToken, {
 });
 
 RefreshToken.belongsTo(AdminUser, {
-    foreignKey: 'userId', targetKey: 'adminID'
+    foreignKey: 'adminId', targetKey: 'adminID'
 });
 
 AdminUser.hasOne(RefreshToken, {
-    foreignKey: 'userId', targetKey: 'adminID'
+    foreignKey: 'adminId', targetKey: 'adminID'
 });
 
 
 
 // Create db tables if they do not exist
-// AdminUser.sync();
-// User.sync();
+AdminUser.sync();
+User.sync();
 // Item.sync();
-// RefreshToken.sync();
+RefreshToken.sync();
 
 // Test connection function
 async function testConnection() {
@@ -91,4 +91,5 @@ module.exports = {
     User,
     Item,
     AdminUser,
+    RefreshToken,
 }

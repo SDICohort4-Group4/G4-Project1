@@ -59,7 +59,8 @@ class UserController{
         
         return res.json({
             message: result.message,
-            data: result.data
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
         });
     }
 
