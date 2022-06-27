@@ -40,6 +40,7 @@ if (process.env.DATABASE_URL !== undefined) {
 const AdminUser = require("./admin.user.model")(sequelize);
 const User = require("./user.model")(sequelize);
 const Item = require("./item.model")(sequelize);
+const RefreshToken = require("./refreshToken.model")(sequelize);
 
 // create foreign key associations
 Item.belongsTo(AdminUser,{
@@ -47,10 +48,30 @@ Item.belongsTo(AdminUser,{
     foreignKey:"updatedByAdminID",
 })
 
+
+RefreshToken.belongsTo(User, {
+    foreignKey: 'userId', targetKey: 'userID'
+});
+
+User.hasOne(RefreshToken, {
+    foreignKey: 'userId', targetKey: 'userID'
+});
+
+RefreshToken.belongsTo(AdminUser, {
+    foreignKey: 'adminId', targetKey: 'adminID'
+});
+
+AdminUser.hasOne(RefreshToken, {
+    foreignKey: 'adminId', targetKey: 'adminID'
+});
+
+
+
 // Create db tables if they do not exist
-// AdminUser.sync();
-// User.sync();
+AdminUser.sync();
+User.sync();
 // Item.sync();
+RefreshToken.sync();
 
 // Test connection function
 async function testConnection() {
@@ -70,4 +91,5 @@ module.exports = {
     User,
     Item,
     AdminUser,
+    RefreshToken,
 }
