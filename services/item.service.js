@@ -6,7 +6,7 @@ const {Item} = require("../models");
 class ItemService{
 
     excludeData = [                
-        "itemID", 
+        // "itemID", 
         "hidden", 
         "deleted", 
         "expiryDate", 
@@ -304,7 +304,7 @@ class ItemService{
         if (itemCategory2 != null && typeof itemCategory1 == "string"){
             itemCategory2 = itemCategory2.toUpperCase();
         }
-        if (brand != null && typeof itemCategory1 == "string"){
+        if (brand != null && typeof brand == "string"){
             brand = brand.toUpperCase();
         }
         if(onSale){
