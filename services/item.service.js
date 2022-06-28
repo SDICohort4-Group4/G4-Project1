@@ -122,10 +122,11 @@ class ItemService{
                 break;
         }
 
-        // Retrive all item data
+        // Retrieve all item data
         if(property == null && value == null && value2 == null && value3 == null){
             getItem = await Item.findAll({
-                attributes: {exclude: this.excludeData}                
+                attributes: {exclude: this.excludeData},
+                order: [['itemPrice','ASC']]                
             // const [itemPrice, itemDiscount, hidden, deleted, expiryDate, createdByAdminID, updatedByAdminID, createdAt, updatedAt, ...visible ] = getAllItems;
             });
         };
@@ -241,7 +242,7 @@ class ItemService{
                 break;
         }
 
-        // Retrive all item data
+        // Retrieve all item data
         if(property == null && value == null && value2 == null && value3 == null){
             getItem = await Item.findAll();
         };
