@@ -68,10 +68,10 @@ AdminUser.hasOne(RefreshToken, {
 
 
 // Create db tables if they do not exist
-AdminUser.sync();
-User.sync();
+// AdminUser.sync();
+// User.sync();
 // Item.sync();
-RefreshToken.sync();
+// RefreshToken.sync();
 
 // Test connection function
 async function testConnection() {
