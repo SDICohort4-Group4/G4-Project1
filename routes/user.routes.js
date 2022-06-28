@@ -14,7 +14,7 @@ router.get("/",(req,res)=>{
     return res.send("Group 4 Project 2 root page.")
 })
 
-router.get("/user", userController.getAllUser)
+//router.get("/user", userController.getAllUser)
 
 router.post("/user/register", userController.registerUser);
 
