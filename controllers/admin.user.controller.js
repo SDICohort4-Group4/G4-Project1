@@ -82,11 +82,13 @@ class AdminUserController{
         const result= await adminUserService.loginAdmin(email, pwd);
 
         res.status(result.status);
+        res.set({
+            'x-access-token': result.accessToken,
+            'x-refresh-token': result.refreshToken
+        });
 
         return res.json({
             message: result.message,
-            accessToken: result.accessToken,
-            refreshToken: result.refreshToken,
         });
     }
 

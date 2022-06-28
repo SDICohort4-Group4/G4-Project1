@@ -101,11 +101,10 @@ class UserService{
         const token = jwt.sign(userInfo, authConfig.secret, {expiresIn: authConfig.jwtExpiration});
         
         let refreshToken = await RefreshToken.createToken(checkUser);
-
         result.accessToken = token;
         result.message ="Login Success";
         result.status = 200;
-        result.refreshToken = refreshToken;
+        result.refreshToken = refreshToken.dataValues.token;
 
         return result;
     };
