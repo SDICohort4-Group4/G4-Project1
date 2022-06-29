@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const verifyRoles = require('../middleware/verifyRoles');
+const verifyJWT = require('../middleware/verifyJWT')
 
 const UserController = require("../controllers/user.controller");
 const userController = new UserController();
@@ -19,5 +21,10 @@ router.get("/user", userController.getAllUser)
 router.post("/user/register", userController.registerUser);
 
 router.post("/user/login", userController.loginUser);
+
+router.put("/user/update", verifyJWT, verifyRoles('user'), userController.updateUser);
+
+router.get("/user/getInfo", verifyJWT, verifyRoles('user'), userController.getInfo);
+
 
 module.exports = router;

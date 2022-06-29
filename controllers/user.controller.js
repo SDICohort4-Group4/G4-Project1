@@ -1,3 +1,4 @@
+const { User } = require("../models");
 const UserService = require("../services/user.service");
 const userService = new UserService;
 
@@ -65,6 +66,40 @@ class UserController{
             message: result.message,
         });
     }
+
+
+    async updateUser(req, res) {
+
+        let token = req.headers["x-access-token"];
+
+        // check if request is empty;
+        if (!Object.keys(req.body).length) {
+            res.status(400);
+            return res.json({message: "There are no inputs"});
+        }
+
+        // check if req has required ;
+        if (!req.body?.userEmail) {
+            res.status(400);
+            return res.json({message: "Requires userEmail"});
+        }
+
+        //send data to ORM layer 
+        const result = await userService.updateUser(req.body, token);
+        // return the service data
+        res.status(result.status);
+        return res.json({message: result.message, data: result.data});
+    }
+
+    async getInfo(req,res) {
+        let token = req.headers['x-access-token'];
+        // send data to orm layer
+        const result = await userService.getInfo(token);
+        // return the service data
+        res.status(result.status);
+        return res.json({message: result.message, data: result.data});
+    };
+
 
 }
 
