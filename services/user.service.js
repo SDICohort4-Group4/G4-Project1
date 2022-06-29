@@ -31,8 +31,8 @@ class UserService{
             data:null,
         };
 
-        // search the db and find whether the user email already exists
-        const checkUser= await User.findOne({where:{userEmail:email}});
+        // search the db and find whether the user email already exists conver email to lower case before
+        const checkUser= await User.findOne({where:{userEmail:email.toLowerCase()}});
 
         if (checkUser !== null){
             result.message = `User: ${email} already exists, please use another Email `;
@@ -44,9 +44,9 @@ class UserService{
         // hash the password before storing in database
         const pwdHashed = await bcrypt.hash(pwd,saltRounds);
         
-        // create the record in db
+        // create the record in db convert email to lower case before creating
         await User.create({
-            userEmail: email, 
+            userEmail: email.toLowerCase(), 
             userName: name, 
             userNickname: nickname, 
             userPwd: pwdHashed
@@ -75,7 +75,7 @@ class UserService{
         }
 
         // check whether user exists in db
-        const checkUser = await User.findOne({where:{userEmail:email}});
+        const checkUser = await User.findOne({where:{userEmail:email.toLowerCase()}});
 
         if (!checkUser){
             result.message = `User: ${email} does Not exist, please use another Email`;
@@ -108,6 +108,79 @@ class UserService{
 
         return result;
     };
+
+    async updateUser(userData, token){
+        // userData is an object
+
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        // first decode the jwt
+        let decoded = jwt.decode(token);
+
+        //get the user from db
+        const targetUser = await User.findByPk(decoded.id);
+
+        //allowed list of keys
+        let allowedKeys = new Set(["userName", "userNickname", "userEmail", "userAddress1", "userAddress2", "userPostalCode", "userCountry", "userCountryCode", "userPhoneNum"]);
+
+        for (let key of Object.keys(userData)) {
+            if (allowedKeys.has(key)) targetUser[key] = userData[key];
+        }
+
+        await targetUser.save();
+
+        let data = {};
+
+        // generate out data without certain keys
+        for (let key of Object.keys(targetUser.dataValues)) {
+            if (key != "createdAt" &&  key != "updatedAt" && key != "userPwd") {
+                data[key] = targetUser.dataValues[key];
+            }
+        }
+
+        result.status = 200;
+        result.message = "Data updated successfully"
+        result.data = data;
+        return result;
+    };
+
+    async getInfo(token){
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        // first decode the jwt
+        let decoded = jwt.decode(token);
+        
+        const targetUser = await User.findByPk(decoded.id);
+
+        if (!targetUser) {
+            result.message = `Could not find user.`;
+            result.status = 404;
+            return result;
+        }
+
+        let data = {};
+
+        // generate out data without certain keys
+        for (let key of Object.keys(targetUser.dataValues)) {
+            if (key != "createdAt" &&  key != "updatedAt" && key != "userPwd") {
+                data[key] = targetUser.dataValues[key];
+            }
+        }
+        
+        result.status = 200;
+        result.message = "Data retrieved";
+        result.data = data;
+
+        return result;
+    }
 
 }
 
