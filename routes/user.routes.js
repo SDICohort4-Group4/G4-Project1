@@ -24,7 +24,7 @@ router.post("/user/login", userController.loginUser);
 
 router.put("/user/update", verifyJWT, verifyRoles('user'), userController.updateUser);
 
-router.get("/user/getInfo", verifyJWT, verifyRoles('user'), userController.getInfo);
+router.get("/user/user-info", verifyJWT, verifyRoles('user'), userController.getInfo);
 
 
 module.exports = router;
