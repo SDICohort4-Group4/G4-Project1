@@ -81,7 +81,7 @@ Cart.belongsTo(Item,{
 // User.sync();
 // Item.sync();
 // RefreshToken.sync();
-Cart.sync();
+// Cart.sync();
 
 // Test connection function
 async function testConnection() {
