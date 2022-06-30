@@ -1,8 +1,19 @@
-const {Cart} = require("../models");
+const {Cart, User, Item, sequelize} = require("../models");
 const { Op } = require('sequelize')
 
 
 class CartService{
+
+    excludeData = [                
+        "hidden", 
+        "deleted", 
+        "expiryDate", 
+        "createdByAdminID", 
+        "updatedByAdminID", 
+        "createdAt", 
+        "updatedAt",
+        "cartContentsID",
+    ];
 
     async getCartContents(userID){
         let result = {
@@ -14,17 +25,21 @@ class CartService{
         let getCart=null;
 
         getCart=await Cart.findAll({
-            where: {userID:`${userID}`}
+            raw: true, //avoid nesting in result
+            attributes: {exclude: this.excludeData},
+            include: {
+                model: Item,
+                required: true,
+                attributes: {exclude: this.excludeData}
+            },
+            where: {userID:`${userID}`},
         })
-
-        console.log("cart:",getCart);
 
         if (getCart.length == 0){
             result.message = `No cart found for userID:${userID}`;
             result.status=404;
             return result;
         }
-
 
         result.message = "Cart Contents retrieved";
         result.data=getCart;
