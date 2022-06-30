@@ -46,9 +46,7 @@ class CartController{
     async deleteCart(req,res){
         const userID=parseInt(req.params.userid);
         const itemID=parseInt(req.params.itemid);
-        console.log("user ID:",userID);
-        console.log("item ID:",itemID);
-       
+              
         if (!Number.isInteger(userID)){
             res.status(400);
             return res.json({

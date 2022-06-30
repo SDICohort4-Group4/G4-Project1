@@ -40,7 +40,7 @@ class CartService{
             return result;
         }
 
-        result.message = "Cart Contents retrieved";
+        result.message = `Cart Contents userID: ${userID} retrieved`;
         result.data=getCart;
         result.status=200;
         return result;
@@ -53,13 +53,22 @@ class CartService{
             data: null,
         };
 
-        await Cart.create({
+        const checkCart= await Cart.findOne({where: {userID: userID, itemID: itemID}});
+        // if cart item does not exist, save
+        if (checkCart==null){
+            await Cart.create({
             userID: userID,
             itemID: itemID,
             itemQtyCart: itemQtyCart,
-        })
+            })
+        result.message = "Cart item saved";
+        }  // if cart item exists, overwrite the qty with the new qty
+        else {
+            checkCart.itemQtyCart=itemQtyCart;
+            await checkCart.save();
+            result.message = `Cart itemID:${itemID} Qty updated to ${itemQtyCart}`;
+        }
 
-        result.message = "Cart Contents saved";
         result.status=200;
         return result;
     }
