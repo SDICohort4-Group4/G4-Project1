@@ -42,6 +42,7 @@ const User = require("./user.model")(sequelize);
 const Item = require("./item.model")(sequelize);
 const RefreshToken = require("./refreshToken.model")(sequelize);
 const Cart=require("./cart.model")(sequelize);
+const BuyHistory=require("./buyhistory.model")(sequelize);
 
 // create foreign key associations
 Item.belongsTo(AdminUser,{
@@ -74,6 +75,14 @@ Cart.belongsTo(Item,{
     foreignKey:"itemID",
 });
 
+BuyHistory.belongsTo(User,{
+    foreignKey:"userID"
+});
+
+BuyHistory.belongsTo(Item,{
+    foreignKey:"itemID",
+});
+
 
 
 // Create db tables if they do not exist
@@ -82,6 +91,7 @@ Cart.belongsTo(Item,{
 // Item.sync();
 // RefreshToken.sync();
 // Cart.sync();
+// BuyHistory.sync();
 
 // Test connection function
 async function testConnection() {
