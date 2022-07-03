@@ -113,4 +113,5 @@ module.exports = {
     AdminUser,
     RefreshToken,
     Cart,
+    BuyHistory,
 }

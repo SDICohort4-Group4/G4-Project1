@@ -1,4 +1,4 @@
-
+const {BuyHistory} = require("../models");
 
 class BuyHistoryService{
 
@@ -9,8 +9,20 @@ class BuyHistoryService{
             data: null,
         };
 
-        result.message = `Get Buy History Route`;
-        // result.data=getBuyHistory;
+        let getBuyHistory=null;
+
+        getBuyHistory=await BuyHistory.findAll({
+            where:{userID: userID},
+        })
+
+        if (getBuyHistory.length==0){
+            result.message = `No Purchase History found for userID: ${userID}`;
+            result.status=404;
+            return result;
+        }
+
+        result.message = `Purchase History for userid:${userID} retrieved`;
+        result.data=getBuyHistory;
         result.status=200;
         return result;
 
@@ -23,7 +35,7 @@ class BuyHistoryService{
             data: null,
         }
 
-        result.message = `Save Buy History Route`;
+        result.message = `Purchase History for userID:${userID} saved`;
         result.status=200;
         return result;
 
@@ -36,7 +48,9 @@ class BuyHistoryService{
             data: null,
         }
 
-        result.message = `Delete Buy History Route`;
+        await BuyHistory.destroy({where:{userID:userID}});
+
+        result.message = `All Buy History for userID:${userID} deleted`;
         result.status=200;
         return result;
     }

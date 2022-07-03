@@ -24,6 +24,24 @@ class BuyHistoryController {
 
     async saveBuyHistory(req,res){
 
+        const {userID, itemID, itemSKU, itemName, buyPrice, buyQty} = req.body;
+
+        //check that data is valid
+        if (!Number.isInteger(userID)){
+            res.status(400);
+            return res.json({
+                message:"UserID needs to be an integer"
+            })
+        }
+
+        if (!Number.isInteger(itemID)){
+            res.status(400);
+            return res.json({
+                message:"UserID needs to be an integer"
+            })
+        }
+
+
         const result=await buyHistoryService.saveBuyHistory();
 
         res.status(result.status);
