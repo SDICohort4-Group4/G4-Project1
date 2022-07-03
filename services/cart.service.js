@@ -24,7 +24,7 @@ class CartService{
         let getCart=null;
 
         getCart=await Cart.findAll({
-            raw: true, //avoid nesting in result object
+            // raw: true, //avoid nesting in result object
             attributes: {exclude: this.excludeData},
             include: {
                 model: Item,

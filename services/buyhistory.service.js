@@ -28,12 +28,21 @@ class BuyHistoryService{
 
     }
 
-    async saveBuyHistory(){
+    async saveBuyHistory(userID, itemID, itemSKU, itemName, buyPrice, buyQty){
         let result = {
             message: null,
             status: null,
             data: null,
         }
+
+        await BuyHistory.create({
+            userID: userID,
+            itemID: itemID,
+            itemSKU: itemSKU,
+            itemName: itemName,
+            buyPrice: buyPrice,
+            buyQty: buyQty,
+        })
 
         result.message = `Purchase History for userID:${userID} saved`;
         result.status=200;
