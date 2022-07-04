@@ -28,23 +28,26 @@ class BuyHistoryService{
 
     }
 
-    async saveBuyHistory(userID, itemID, itemSKU, itemName, buyPrice, buyQty){
+    // async saveBuyHistory(userID, itemID, itemSKU, itemName, buyPrice, buyQty){
+        async saveBuyHistory(buyHistoryData){
         let result = {
             message: null,
             status: null,
             data: null,
         }
 
-        await BuyHistory.create({
-            userID: userID,
-            itemID: itemID,
-            itemSKU: itemSKU,
-            itemName: itemName,
-            buyPrice: buyPrice,
-            buyQty: buyQty,
-        })
+        // await BuyHistory.create({
+        //     userID: userID,
+        //     itemID: itemID,
+        //     itemSKU: itemSKU,
+        //     itemName: itemName,
+        //     buyPrice: buyPrice,
+        //     buyQty: buyQty,
+        // })
 
-        result.message = `Purchase History for userID:${userID} saved`;
+        await BuyHistory.bulkCreate(buyHistoryData)
+
+        result.message = `Purchase History saved`;
         result.status=200;
         return result;
 
