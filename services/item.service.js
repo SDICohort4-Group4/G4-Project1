@@ -539,6 +539,28 @@ class ItemService{
         return result;
     };
 
+    async getCatList(){
+
+        let result = {
+            message: null,
+            status: null,
+            data: null
+        };
+
+        // get all unique cat from the db
+        const distinctCat1 = await Item.aggregate('itemCategory1', 'DISTINCT', {plain: false});
+        let cat1List = distinctCat1.map(obj => obj['DISTINCT']);
+
+        const distinctCat2 = await Item.aggregate('itemCategory2', 'DISTINCT', {plain: false});
+        let cat2List = distinctCat2.map(obj => obj['DISTINCT']);
+
+        result.status = 200;
+        result.message = "Data retrieved";
+        result.data = {cat1: cat1List, cat2: cat2List};
+
+        return result;
+    }
+
 }
 
 module.exports = ItemService;
