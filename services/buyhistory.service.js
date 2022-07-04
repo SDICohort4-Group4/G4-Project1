@@ -1,4 +1,4 @@
-const {BuyHistory} = require("../models");
+const {BuyHistory, Item} = require("../models");
 
 class BuyHistoryService{
 
@@ -28,24 +28,30 @@ class BuyHistoryService{
 
     }
 
-    // async saveBuyHistory(userID, itemID, itemSKU, itemName, buyPrice, buyQty){
-        async saveBuyHistory(buyHistoryData){
+    async saveBuyHistory(buyHistoryData){
         let result = {
             message: null,
             status: null,
             data: null,
         }
 
-        // await BuyHistory.create({
-        //     userID: userID,
-        //     itemID: itemID,
-        //     itemSKU: itemSKU,
-        //     itemName: itemName,
-        //     buyPrice: buyPrice,
-        //     buyQty: buyQty,
-        // })
+        // loop through the array to save individual items
+        for(let i=0;i<buyHistoryData.length;i++){
+            await BuyHistory.create({
+                userID: buyHistoryData[i].userID,
+                itemID: buyHistoryData[i].itemID,
+                itemSKU: buyHistoryData[i].itemSKU,
+                itemName: buyHistoryData[i].itemName,
+                buyPrice: buyHistoryData[i].buyPrice,
+                buyQty: buyHistoryData[i].buyQty,
+            })
 
-        await BuyHistory.bulkCreate(buyHistoryData)
+            // find and delete from items table the purchased qty
+            const checkItemQty= await Item.findByPk(buyHistoryData[i].itemID);
+            let temp=checkItemQty.Qty-buyHistoryData[i].buyQty;
+            checkItemQty.Qty=temp;
+            await checkItemQty.save();
+        }
 
         result.message = `Purchase History saved`;
         result.status=200;
