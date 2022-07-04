@@ -91,7 +91,7 @@ BuyHistory.belongsTo(Item,{
 // Item.sync();
 // RefreshToken.sync();
 // Cart.sync();
-BuyHistory.sync();
+// BuyHistory.sync();
 
 // Test connection function
 async function testConnection() {
