@@ -146,6 +146,18 @@ class ItemController{
         });
         
     }
+
+    async getCatList(req, res) {
+        // get data from service layer
+        const result = await itemService.getCatList();
+
+        res.status(result.status);
+
+        return res.json({
+            message: result.message,
+            data: result.data
+        })
+    }
 }
 
 module.exports = ItemController;

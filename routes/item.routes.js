@@ -11,6 +11,9 @@ const itemController = new ItemController;
 //     return res.send("Item route is working!")
 // })
 
+//get list of all the Item cat1 header
+router.get("/item/categoryList", itemController.getCatList);
+
 router.get("/item/:property?/:value?/:value2?/:value3?", itemController.getByItem)
 
 // can remove verifyJWT and verifyRoles middleware 
