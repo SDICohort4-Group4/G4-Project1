@@ -5,7 +5,7 @@ class StripePaymentController{
     async doPayment(req,res){
         const {amountPayable} = req.body
 
-        if (!amountPayable || amountPayable<0){
+        if (!amountPayable || amountPayable<0 || !Number.isInteger(userID)){
             res.status(400);
             return res.json({
                 message:"Invalid amount"
