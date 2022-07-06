@@ -3,10 +3,17 @@ const stripe=require('stripe')("sk_test_51LIAztC2VmHakyazhdyRJMzKRRELUIAc10o8dF5
 class StripePaymentController{
     
     async doPayment(req,res){
-        const {amount} = req.body
+        const {amountPayable} = req.body
+
+        if (!amountPayable || amountPayable<0){
+            res.status(400);
+            return res.json({
+                message:"Invalid amount"
+            })
+        }   
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
+            amount: amountPayable,
             currency: 'sgd',
           });
           const clientSecret = paymentIntent.client_secret
