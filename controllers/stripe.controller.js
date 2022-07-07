@@ -8,25 +8,26 @@ class StripePaymentController{
         if (!amountPayable || amountPayable<0){
             res.status(400);
             return res.json({
-                message:"Invalid amount"
+                message:"Invalid Amount Payable"
             })
         }   
-
+      
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount: amountPayable,
                 currency: 'sgd',
                 });
                 const clientSecret = paymentIntent.client_secret
+                console.log("payment intent",paymentIntent)
                 res.status(200);
                 return res.json({
                     message:"Stripe Success",
                         data: {clientSecret},
                     })
         } catch (error) {
-                res.status(400);
+                res.status(error.statusCode);
                 return res.json({
-                    message:"Stripe error"})
+                    message: error.raw.message})
         }
       
   
