@@ -19,16 +19,17 @@ class StripePaymentController{
                 });
                 const clientSecret = paymentIntent.client_secret
                 res.status(200);
+                return res.json({
+                    message:"Stripe Success",
+                        data: {clientSecret},
+                    })
         } catch (error) {
                 res.status(400);
+                return res.json({
+                    message:"Stripe error"})
         }
       
-
-        
-        return res.json({
-        message:"Stripe controller layer",
-            data: {clientSecret},
-        })
+  
     }
 }
 
