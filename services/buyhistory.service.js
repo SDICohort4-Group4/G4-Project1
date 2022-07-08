@@ -44,6 +44,11 @@ class BuyHistoryService{
                 itemName: buyHistoryData[i].itemName,
                 buyPrice: buyHistoryData[i].buyPrice,
                 buyQty: buyHistoryData[i].buyQty,
+                stripeID: buyHistoryData[i].stripeID,
+                currency: buyHistoryData[i].currency,
+                stripeAmount: buyHistoryData[i].stripeAmount,
+                stripePaymentMethodID: buyHistoryData[i].stripePaymentMethodID,
+                stripeClientSecret: buyHistoryData[i].stripeClientSecret,
             })
 
             // find and delete from items table the purchased qty

@@ -9,6 +9,6 @@ router.get("/buyhistory/:userid",buyHistoryController.getBuyHistoryByUserID);
 router.post("/buyhistory/save",buyHistoryController.saveBuyHistory);
 
 // delete is for testing/db cleanup
-router.put("/buyhistory/delete/:userid",buyHistoryController.deleteBuyHistory);
+// router.put("/buyhistory/delete/:userid",buyHistoryController.deleteBuyHistory);
 
 module.exports=router;

@@ -27,10 +27,11 @@ class BuyHistoryController {
         const buyHistoryData=req.body;
       
         // check array/object is not empty
-        if (buyHistoryData.length==0 || Object.keys(buyHistoryData).length==0){
+        console.log("controller",buyHistoryData.length)
+        if (buyHistoryData.length==0 || Object.keys(buyHistoryData).length==0 || !buyHistoryData.length){
             res.status(400)
             return res.json({
-                message:"Empty Array, not possible to save data"
+                message:"Invalid array/object format, not possible to save data"
             })
         }
 
