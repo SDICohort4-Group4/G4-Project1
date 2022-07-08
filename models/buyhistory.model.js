@@ -35,6 +35,31 @@ module.exports = function(sequelize){
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            stripeID:{
+                type: DataTypes.STRING,
+                allowNull:false,
+                defaultValue:"none",
+            },
+            currency: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue:"none",
+            },
+            stripeAmount:{
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue:0,
+            },
+            stripePaymentMethodID:{
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue:"none",
+            },
+            stripeClientSecret:{
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue:"none",
+            },
             createdAt: {
                 type: DataTypes.DATE,
             },
