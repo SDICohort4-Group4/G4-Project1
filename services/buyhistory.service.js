@@ -13,8 +13,7 @@ class BuyHistoryService{
 
         getBuyHistory=await BuyHistory.findAll({
             where:{userID: userID},
-            order: [["createdAt", "DESC"]],
-            
+            order: [['createdAt', 'DESC']]
         })
 
         if (getBuyHistory.length==0){
